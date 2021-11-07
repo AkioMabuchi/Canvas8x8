@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.LowLevel;
 using UnityEngine.SceneManagement;
 
 public static class SceneLoader
@@ -13,6 +15,9 @@ public static class SceneLoader
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void LoadScenes()
     {
+        PlayerLoopSystem loop = PlayerLoop.GetCurrentPlayerLoop();
+        PlayerLoopHelper.Initialize(ref loop);
+        
         if (!SceneManager.GetSceneByName(GameScene).IsValid())
         {
             SceneManager.LoadScene(GameScene, LoadSceneMode.Additive);

@@ -30,7 +30,7 @@ namespace Models
         
         private static readonly ReactiveProperty<string>[] _roomMaximums = new ReactiveProperty<string>[30];
         public static readonly IReadOnlyReactiveProperty<string>[] RoomMaximums =
-            new IReadOnlyReactiveProperty<string>[39];
+            new IReadOnlyReactiveProperty<string>[30];
         
         private static readonly ReactiveProperty<string>[] _roomCurrents = new ReactiveProperty<string>[30];
         public static readonly IReadOnlyReactiveProperty<string>[] RoomCurrents =

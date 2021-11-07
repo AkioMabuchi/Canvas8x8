@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace SceneManagers
 {
-    public class LobbySceneManager : MonoBehaviour
+    public class LobbySceneManager : MonoBehaviour, ILobbyCallbacks
     {
         private readonly Dictionary<string, IDisposable> _disposables = new Dictionary<string, IDisposable>();
 
@@ -19,7 +19,7 @@ namespace SceneManagers
         {
             CanvasCreateRoom.Instance.Hide();
             CanvasEnterPassword.Instance.Hide();
-            if (PhotonNetwork.IsConnected)
+            if (PhotonNetwork.IsConnected && PhotonNetwork.InLobby)
             {
                 for (int i = 0; i < 30; i++)
                 {
@@ -60,8 +60,6 @@ namespace SceneManagers
                             CanvasRoomList.Instance.SetRoomButtonCurrentText(ii, current);
                         }));
                 }
-
-                _disposables.Add("RoomList", PhotonManager.Instance.RoomListUpdate.Subscribe(RoomListModel.Update));
                 EnableUserControl();
             }
             else
@@ -173,6 +171,26 @@ namespace SceneManagers
                 _disposables[key].Dispose();
                 _disposables.Remove(key);
             }
+        }
+
+        public void OnJoinedLobby()
+        {
+            
+        }
+
+        public void OnLeftLobby()
+        {
+
+        }
+
+        public void OnRoomListUpdate(List<RoomInfo> roomList)
+        {
+            RoomListModel.Update(roomList);
+        }
+
+        public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
+        {
+
         }
     }
 }

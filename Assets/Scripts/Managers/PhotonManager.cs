@@ -22,9 +22,7 @@ namespace Managers
         
         private readonly Subject<int> _joinRoomFailed = new Subject<int>();
         public IObservable<int> JoinRoomFailed => _joinRoomFailed;
-
-        private readonly Subject<IReadOnlyList<RoomInfo>> _roomListUpdate = new Subject<IReadOnlyList<RoomInfo>>();
-        public IObservable<IReadOnlyList<RoomInfo>> RoomListUpdate => _roomListUpdate;
+        
         private readonly Subject<DisconnectCause> _disconnected = new Subject<DisconnectCause>();
         public IObservable<DisconnectCause> Disconnected => _disconnected;
 
@@ -52,12 +50,6 @@ namespace Managers
         {
             _joinRoomFailed.OnNext(returnCode);
         }
-
-        public override void OnRoomListUpdate(List<RoomInfo> roomList)
-        {
-            _roomListUpdate.OnNext(roomList);
-        }
-
         public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
         {
             
