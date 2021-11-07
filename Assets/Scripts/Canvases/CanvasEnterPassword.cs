@@ -37,6 +37,11 @@ namespace Canvases
                     textMeshProPasswordWarning.text = "パスワードが違います";
                 }
             });
+            
+            buttonCancel.onClick.AddListener(() =>
+            {
+                _onClickButtonCancel.OnNext(Unit.Default);
+            });
         }
 
         public void SetRoomName(string roomName)
