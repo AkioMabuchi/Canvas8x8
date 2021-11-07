@@ -15,6 +15,7 @@ namespace Models
     public static class RoomListModel
     {
         private static readonly Dictionary<string, RoomInfo> _rooms = new Dictionary<string, RoomInfo>();
+        public static IReadOnlyDictionary<string, RoomInfo> Rooms => _rooms;
 
         private static readonly ReactiveProperty<bool>[] _roomsInteractable = new ReactiveProperty<bool>[30];
         public static readonly IReadOnlyReactiveProperty<bool>[] RoomsInteractable =

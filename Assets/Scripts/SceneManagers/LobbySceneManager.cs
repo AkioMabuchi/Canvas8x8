@@ -126,6 +126,45 @@ namespace SceneManagers
                     CanvasCreateRoom.Instance.SetRoomNameWarningText("");
                     CanvasCreateRoom.Instance.Show();
                 }));
+
+            _disposables.Add(
+                "OnClickButtonRoom",
+                CanvasRoomList.Instance.OnClickButtonRoom.Subscribe(roomName =>
+                {
+                    if (RoomListModel.Rooms.ContainsKey(roomName))
+                    {
+                        string password = (string) RoomListModel.Rooms[roomName].CustomProperties["Password"];
+                        if (password == "")
+                        {
+                            PhotonNetwork.JoinRoom(roomName);
+                        }
+                        else
+                        {
+                            _disposables.Add(
+                                "OnCertificated",
+                                CanvasEnterPassword.Instance.OnCertificated.Subscribe(roomName2 =>
+                                {
+                                    DisableEnterPasswordControlAndHide();
+                                    PhotonNetwork.JoinRoom(roomName2);
+                                }));
+                            _disposables.Add(
+                                "OnClickButtonEnterPasswordCancel",
+                                CanvasEnterPassword.Instance.OnClickButtonCancel.Subscribe(_ =>
+                                {
+                                    DisableEnterPasswordControlAndHide();
+                                    EnableUserControl();
+                                }));
+                            CanvasEnterPassword.Instance.SetRoomName(roomName);
+                            CanvasEnterPassword.Instance.SetRoomPassword(password);
+                            CanvasEnterPassword.Instance.Show();
+                        }
+                        DisableUserControl();
+                    }
+                    else
+                    {
+                        Debug.Log("This Room Deleted");
+                    }
+                }));
         }
 
         private void DisableUserControl()
@@ -142,6 +181,12 @@ namespace SceneManagers
             CanvasCreateRoom.Instance.Hide();
         }
 
+        private void DisableEnterPasswordControlAndHide()
+        {
+            Dispose("OnCertificated");
+            Dispose("OnClickButtonEnterPasswordCancel");
+            CanvasEnterPassword.Instance.Hide();
+        }
         private void OnDestroy()
         {
             foreach (IDisposable disposable in _disposables.Values) disposable.Dispose();
