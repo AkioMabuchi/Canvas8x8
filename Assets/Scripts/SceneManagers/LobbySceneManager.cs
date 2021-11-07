@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace SceneManagers
 {
-    public class LobbySceneManager : MonoBehaviour, ILobbyCallbacks
+    public class LobbySceneManager : MonoBehaviourPunCallbacks
     {
         private readonly Dictionary<string, IDisposable> _disposables = new Dictionary<string, IDisposable>();
 
@@ -19,7 +19,7 @@ namespace SceneManagers
         {
             CanvasCreateRoom.Instance.Hide();
             CanvasEnterPassword.Instance.Hide();
-            if (PhotonNetwork.IsConnected && PhotonNetwork.InLobby)
+            if (PhotonNetwork.IsConnected)
             {
                 for (int i = 0; i < 30; i++)
                 {
@@ -60,6 +60,7 @@ namespace SceneManagers
                             CanvasRoomList.Instance.SetRoomButtonCurrentText(ii, current);
                         }));
                 }
+                
                 EnableUserControl();
             }
             else
@@ -108,13 +109,8 @@ namespace SceneManagers
                                     },
                                     CustomRoomPropertiesForLobby = new[] {"Password"}
                                 };
+                                
                                 PhotonNetwork.CreateRoom(CreateRoomModel.RoomName.Value, roomOptions);
-
-                                _disposables.Add("OnJoinedRoom", PhotonManager.Instance.JoinedRoom.Subscribe(___ =>
-                                    {
-                                        SceneController.Instance.ChangeScene("MainScene");
-                                    }
-                                ));
                             }
                         }));
                     _disposables.Add(
@@ -153,14 +149,6 @@ namespace SceneManagers
         
         private void Logout()
         {
-            _disposables.Add(
-                "disconnected",
-                PhotonManager.Instance.Disconnected.Subscribe(cause =>
-                {
-                    Dispose("disconnected");
-                    SceneController.Instance.ChangeScene("TitleScene");
-                }));
-            
             PhotonNetwork.Disconnect();
         }
 
@@ -173,24 +161,14 @@ namespace SceneManagers
             }
         }
 
-        public void OnJoinedLobby()
+        public override void OnJoinedRoom()
         {
-            
+            SceneController.Instance.ChangeScene("MainScene");
         }
 
-        public void OnLeftLobby()
+        public override void OnDisconnected(DisconnectCause cause)
         {
-
-        }
-
-        public void OnRoomListUpdate(List<RoomInfo> roomList)
-        {
-            RoomListModel.Update(roomList);
-        }
-
-        public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
-        {
-
+            SceneController.Instance.ChangeScene("TitleScene");
         }
     }
 }

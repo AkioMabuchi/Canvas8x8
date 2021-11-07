@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace SceneManagers
 {
-    public class TitleSceneManager : MonoBehaviour, ILobbyCallbacks
+    public class TitleSceneManager : MonoBehaviourPunCallbacks
     {
         private readonly Dictionary<string, IDisposable> _disposables = new Dictionary<string, IDisposable>();
 
@@ -70,19 +70,12 @@ namespace SceneManagers
 
         private void ConnectServerAndJoinLobby()
         {
-            _disposables.Add("OnConnectedToMaster",PhotonManager.Instance.ConnectedToMaster.Subscribe(_ =>
-            {
-                Dispose("OnConnectedToMaster");
-                PhotonNetwork.JoinLobby();
-            }));
-            
             PhotonNetwork.ConnectUsingSettings();
         }
         private void OnDestroy()
         {
             foreach (IDisposable disposable in _disposables.Values) disposable.Dispose();
         }
-        
         
         private void Dispose(string key)
         {
@@ -95,24 +88,14 @@ namespace SceneManagers
             Debug.LogWarning(key);
         }
 
-        public void OnJoinedLobby()
+        public override void OnConnectedToMaster()
+        {
+            PhotonNetwork.JoinLobby();
+        }
+
+        public override void OnJoinedLobby()
         {
             SceneController.Instance.ChangeScene("LobbyScene");
-        }
-
-        public void OnLeftLobby()
-        {
-
-        }
-
-        public void OnRoomListUpdate(List<RoomInfo> roomList)
-        {
-            RoomListModel.Update(roomList);
-        }
-
-        public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
-        {
-
         }
     }
 }
