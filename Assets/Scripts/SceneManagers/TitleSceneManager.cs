@@ -6,13 +6,13 @@ using Cysharp.Threading.Tasks;
 using Managers;
 using Models;
 using Photon.Pun;
-using SceneManagers.TitleSceneStates;
+using Photon.Realtime;
 using UniRx;
 using UnityEngine;
 
 namespace SceneManagers
 {
-    public class TitleSceneManager : MonoBehaviour
+    public class TitleSceneManager : MonoBehaviour, ILobbyCallbacks
     {
         private readonly Dictionary<string, IDisposable> _disposables = new Dictionary<string, IDisposable>();
 
@@ -73,11 +73,6 @@ namespace SceneManagers
             _disposables.Add("OnConnectedToMaster",PhotonManager.Instance.ConnectedToMaster.Subscribe(_ =>
             {
                 Dispose("OnConnectedToMaster");
-                _disposables.Add("OnJoinedLobby",PhotonManager.Instance.JoinedLobby.Subscribe(__ =>
-                {
-                    Dispose("OnJoinedLobby");
-                    SceneController.Instance.ChangeScene("LobbyScene");
-                }));
                 PhotonNetwork.JoinLobby();
             }));
             
@@ -98,6 +93,26 @@ namespace SceneManagers
             }
 
             Debug.LogWarning(key);
+        }
+
+        public void OnJoinedLobby()
+        {
+            SceneController.Instance.ChangeScene("LobbyScene");
+        }
+
+        public void OnLeftLobby()
+        {
+
+        }
+
+        public void OnRoomListUpdate(List<RoomInfo> roomList)
+        {
+            RoomListModel.Update(roomList);
+        }
+
+        public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
+        {
+
         }
     }
 }

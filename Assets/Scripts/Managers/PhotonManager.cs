@@ -13,10 +13,7 @@ namespace Managers
     {
         private readonly Subject<Unit> _connectedToMaster = new Subject<Unit>();
         public IObservable<Unit> ConnectedToMaster => _connectedToMaster;
-        
-        private readonly Subject<Unit> _joinedLobby = new Subject<Unit>();
-        public IObservable<Unit> JoinedLobby => _joinedLobby;
-        
+
         private readonly Subject<Unit> _joinedRoom = new Subject<Unit>();
         public IObservable<Unit> JoinedRoom => _joinedRoom;
         
@@ -35,12 +32,7 @@ namespace Managers
         {
             _connectedToMaster.OnNext(Unit.Default);
         }
-
-        public override void OnJoinedLobby()
-        {
-            _joinedLobby.OnNext(Unit.Default);
-        }
-
+        
         public override void OnJoinedRoom()
         {
             _joinedRoom.OnNext(Unit.Default);
