@@ -284,9 +284,9 @@ namespace SceneManagers
             SetRoomProperty("Examiners", examinerTurn);
             photonView.RPC(nameof(MainGameStartCall), RpcTarget.All);
             photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 0); // Game Startのサインを出す
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(3.0f);
             photonView.RPC(nameof(HideImageCall), RpcTarget.All);
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.5f);
             StartCoroutine(CoroutineNextRound());
         }
 
@@ -303,6 +303,7 @@ namespace SceneManagers
                 yield return new WaitForSeconds(1.0f);
                 photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 1);
                 yield return new WaitForSeconds(1.0f);
+                photonView.RPC(nameof(HideImageCall), RpcTarget.All);
                 photonView.RPC(nameof(RoundStart), RpcTarget.All);
                 for (int count = 10; count > 0; count--)
                 {
@@ -315,6 +316,9 @@ namespace SceneManagers
                 yield return new WaitForSeconds(3.0f);
                 photonView.RPC(nameof(HideImageCall), RpcTarget.All);
                 yield return new WaitForSeconds(0.2f);
+                
+                int nextRound = (int) PhotonNetwork.CurrentRoom.CustomProperties["Round"] + 1;
+                SetRoomProperty("Round", nextRound);
                 StartCoroutine(CoroutineNextRound());
             }
             else
