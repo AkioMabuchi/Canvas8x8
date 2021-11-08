@@ -461,9 +461,10 @@ namespace Models
         static void TextOutput()
         {
             string text = String.Empty;
-            foreach (char character in _inputProcess)
+            foreach (char t in _inputProcess)
             {
-                text += character;
+                if (t == '\0') break;
+                text += t;
             }
 
             _inputText.Value = text;

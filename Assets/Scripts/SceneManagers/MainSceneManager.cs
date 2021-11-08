@@ -435,11 +435,6 @@ namespace SceneManagers
                                         SetPlayerProperty("Answer", answer);
                                         AnswerInputModel.Clear();
                                     }
-                                    else
-                                    {
-                                        Debug.Log(answer + ";");
-                                    }
-
                                     break;
                                 }
                                 case '\b':
