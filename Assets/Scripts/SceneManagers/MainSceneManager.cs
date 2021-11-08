@@ -428,11 +428,16 @@ namespace SceneManagers
                                 case '\r':
                                 {
                                     string answer = AnswerInputModel.InputText.Value;
+
                                     if (ThemeModel.CanBeAnswer(answer))
                                     {
                                         photonView.RPC(nameof(Answer), RpcTarget.MasterClient, answer);
                                         SetPlayerProperty("Answer", answer);
                                         AnswerInputModel.Clear();
+                                    }
+                                    else
+                                    {
+                                        Debug.Log(answer);
                                     }
 
                                     break;
@@ -454,7 +459,7 @@ namespace SceneManagers
                                 }
                             }
                         }));
-                    Debug.Log("タイピングの時間だ！");
+                    AnswerInputModel.Clear();
                     break;
                 }
             }
