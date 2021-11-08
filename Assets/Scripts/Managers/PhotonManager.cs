@@ -20,5 +20,35 @@ namespace Managers
         {
             RoomListModel.Update(roomList);
         }
+
+        public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            
+        }
+
+        public override void OnJoinedRoom()
+        {
+            PlayerListModel.SetPlayers(PhotonNetwork.CurrentRoom.Players);
+        }
+
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+        {
+            
+        }
+
+        public override void OnPlayerEnteredRoom(Player newPlayer)
+        {
+            
+        }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            
+        }
+
+        public override void OnLeftRoom()
+        {
+            PlayerListModel.ClearPlayers();
+        }
     }
 }

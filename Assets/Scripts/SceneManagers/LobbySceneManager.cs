@@ -17,9 +17,10 @@ namespace SceneManagers
 
         private void Start()
         {
+            SceneController.Instance.SetCurrentSceneName("LobbyScene");
             CanvasCreateRoom.Instance.Hide();
             CanvasEnterPassword.Instance.Hide();
-            if (PhotonNetwork.IsConnected)
+            if (PhotonNetwork.InLobby)
             {
                 for (int i = 0; i < 30; i++)
                 {

@@ -18,6 +18,7 @@ namespace SceneManagers
 
         private IEnumerator Start()
         {
+            SceneController.Instance.SetCurrentSceneName("TitleScene");
             _disposables.Add(
                 "UserName",
                 UserNameModel.UserName.Subscribe(userName =>

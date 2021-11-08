@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Canvases;
 using Managers;
 using Models;
+using Photon.Pun;
 using UniRx;
 using UnityEngine;
 
@@ -23,17 +24,20 @@ namespace SceneManagers
 
         private void Start()
         {
-            ChangeMode(_currentMode);
+            SceneController.Instance.SetCurrentSceneName("MainScene");
+            if (PhotonNetwork.InRoom)
+            {
+                
+            }
+            else
+            {
+                SceneController.Instance.ChangeScene("LobbyScene");
+            }
         }
 
         private void OnDestroy()
         {
-            foreach (IDisposable disposable in _disposables)
-            {
-                disposable.Dispose();
-            }
-
-            _disposables.Clear();
+            foreach (IDisposable disposable in _disposables) disposable.Dispose();
         }
 
         private void ChangeMode(Mode mode)
