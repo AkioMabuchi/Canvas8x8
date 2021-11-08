@@ -11,5 +11,10 @@ namespace Canvases
         {
             textMeshProTheme.text = text;
         }
+
+        public void InitializeText()
+        {
+            textMeshProTheme.text = "ここにお題が表示されます";
+        }
     }
 }

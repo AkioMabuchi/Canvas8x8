@@ -337,7 +337,7 @@ namespace SceneManagers
             DisableButtonExit();
             DisableButtonReady();
             
-            CanvasCalls.Instance.ShowTextCall("ここにお題が表示されます");
+            CanvasTheme.Instance.InitializeText();
         }
 
         [PunRPC]
@@ -348,7 +348,7 @@ namespace SceneManagers
             SetPlayerProperty("Status", PlayerStatus.NotReady);
             CanvasMain.Instance.ChangeButtonReadyImage(false);
 
-            CanvasCalls.Instance.ShowTextCall("ここにお題が表示されます");
+            CanvasTheme.Instance.InitializeText();
         }
 
         [PunRPC]
@@ -373,7 +373,7 @@ namespace SceneManagers
                     EnableButtonReady();
                 }));
             
-            CanvasCalls.Instance.ShowTextCall("ここにお題が表示されます");
+            CanvasTheme.Instance.InitializeText();
             CanvasForceHalt.Instance.Show();
         }
 
