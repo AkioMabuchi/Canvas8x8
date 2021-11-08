@@ -437,7 +437,7 @@ namespace SceneManagers
                                     }
                                     else
                                     {
-                                        Debug.Log(answer);
+                                        Debug.Log(answer + ";");
                                     }
 
                                     break;
