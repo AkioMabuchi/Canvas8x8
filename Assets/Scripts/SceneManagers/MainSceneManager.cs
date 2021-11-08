@@ -147,40 +147,7 @@ namespace SceneManagers
                 }
                 case Mode.Answerer:
                 {
-                    _disposables.Add(AnswerInputModel.InputText.Subscribe(text =>
-                    {
-                        CanvasAnswer.Instance.SetText(text);
-                    }));
-                    
-                    _disposables.Add(InputAnswerManager.Instance.OnInputKey.Subscribe(inputChar =>
-                    {
-                        switch (inputChar)
-                        {
-                            case '\r':
-                            {
-                                if (true)
-                                {
-                                    AnswerInputModel.Clear();
-                                }
-                                break;
-                            }
-                            case '\b':
-                            {
-                                AnswerInputModel.Delete();
-                                break;
-                            }
-                            default:
-                            {
-                                if (inputChar == '\0')
-                                {
-                                    break;
-                                }
 
-                                AnswerInputModel.Input(inputChar);
-                                break;
-                            }
-                        }
-                    }));
                     break;
                 }
             }
@@ -369,19 +336,19 @@ namespace SceneManagers
             _isPlaying = true;
             DisableButtonExit();
             DisableButtonReady();
-
-            Debug.Log("ゲームを始めるぞ！");
+            
+            CanvasCalls.Instance.ShowTextCall("ここにお題が表示されます");
         }
 
         [PunRPC]
         private void MainGameEndCall()
         {
-            _isPlaying = true;
+            _isPlaying = false;
             _isReady = false;
             SetPlayerProperty("Status", PlayerStatus.NotReady);
             CanvasMain.Instance.ChangeButtonReadyImage(false);
 
-            Debug.Log("お疲れ様でした");
+            CanvasCalls.Instance.ShowTextCall("ここにお題が表示されます");
         }
 
         [PunRPC]
@@ -406,6 +373,7 @@ namespace SceneManagers
                     EnableButtonReady();
                 }));
             
+            CanvasCalls.Instance.ShowTextCall("ここにお題が表示されます");
             CanvasForceHalt.Instance.Show();
         }
 
@@ -419,11 +387,14 @@ namespace SceneManagers
             if (examiners[round] == PhotonNetwork.LocalPlayer.ActorNumber)
             {
                 SetPlayerProperty("Status", PlayerStatus.Examiner);
+                string answer = (string) PhotonNetwork.CurrentRoom.CustomProperties["Theme"];
+                CanvasTheme.Instance.SetThemeText("お題：" + answer);
                 CanvasCalls.Instance.ShowTextCall("あなたは「出題者」です");
             }
             else
             {
                 SetPlayerProperty("Status", PlayerStatus.Answerer);
+                CanvasTheme.Instance.SetThemeText("お題：？？？");
                 CanvasCalls.Instance.ShowTextCall("あなたは「回答者」です");
             }
         }
@@ -435,11 +406,54 @@ namespace SceneManagers
             {
                 case PlayerStatus.Examiner:
                 {
+
                     Debug.Log("絵を描け！");
                     break;
                 }
                 case PlayerStatus.Answerer:
                 {
+                    _disposables.Add(
+                        "AnswerText",
+                        AnswerInputModel.InputText.Subscribe(text =>
+                        {
+                            CanvasAnswer.Instance.SetText(text);
+                        }));
+
+                    _disposables.Add(
+                        "AnswerChar",
+                        InputAnswerManager.Instance.OnInputKey.Subscribe(inputChar =>
+                        {
+                            switch (inputChar)
+                            {
+                                case '\r':
+                                {
+                                    string answer = AnswerInputModel.InputText.Value;
+                                    if (ThemeModel.CanBeAnswer(answer))
+                                    {
+                                        photonView.RPC(nameof(Answer), RpcTarget.MasterClient, answer);
+                                        SetPlayerProperty("Answer", answer);
+                                        AnswerInputModel.Clear();
+                                    }
+
+                                    break;
+                                }
+                                case '\b':
+                                {
+                                    AnswerInputModel.Delete();
+                                    break;
+                                }
+                                default:
+                                {
+                                    if (inputChar == '\0')
+                                    {
+                                        break;
+                                    }
+
+                                    AnswerInputModel.Input(inputChar);
+                                    break;
+                                }
+                            }
+                        }));
                     Debug.Log("タイピングの時間だ！");
                     break;
                 }
@@ -450,7 +464,21 @@ namespace SceneManagers
         [PunRPC]
         private void RoundEnd()
         {
-            Debug.Log("ラウンド終了だ！");
+            string answer = (string) PhotonNetwork.CurrentRoom.CustomProperties["Theme"];
+            CanvasTheme.Instance.SetThemeText("お題：" + answer);
+            switch ((PlayerStatus) PhotonNetwork.LocalPlayer.CustomProperties["Status"])
+            {
+                case PlayerStatus.Examiner:
+                {
+                    break;
+                }
+                case PlayerStatus.Answerer:
+                {
+                    Dispose("AnswerText");
+                    Dispose("AnswerChar");
+                    break;
+                }
+            }
         }
         
         [PunRPC]
