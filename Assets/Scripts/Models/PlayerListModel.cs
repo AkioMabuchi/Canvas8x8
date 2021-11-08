@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Realtime;
 using UniRx;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace Models
         {
             if (_players.ContainsKey(player.ActorNumber))
             {
-                
+                _players[player.ActorNumber] = player;
             }
             else
             {
@@ -35,12 +36,42 @@ namespace Models
 
         public static void AddPlayer(Player player)
         {
-            
+            if (_players.ContainsKey(player.ActorNumber))
+            {
+                Debug.LogWarning("This player already exists");
+            }
+            else
+            {
+                _players.Add(player.ActorNumber, player);
+            }
+        }
+
+        public static void RemovePlayer(Player player)
+        {
+            if (_players.ContainsKey(player.ActorNumber))
+            {
+                _players.Remove(player.ActorNumber);
+            }
+            else
+            {
+                Debug.LogWarning("This player doesn't exist");
+            }
         }
 
         public static void ClearPlayers()
         {
             _players.Clear();
+        }
+
+        public static IReadOnlyList<Player> GetPlayerList()
+        {
+            List<Player> players = new List<Player>();
+            foreach (Player player in _players.Values)
+            {
+                players.Add(player);
+            }
+
+            return players;
         }
     }
 }

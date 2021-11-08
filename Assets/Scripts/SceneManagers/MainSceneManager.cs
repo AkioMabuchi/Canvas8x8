@@ -1,33 +1,65 @@
 using System;
 using System.Collections.Generic;
 using Canvases;
+using ExitGames.Client.Photon;
 using Managers;
 using Models;
 using Photon.Pun;
+using Photon.Realtime;
 using UniRx;
 using UnityEngine;
 
 namespace SceneManagers
 {
-    public class MainSceneManager : MonoBehaviour
+    public class MainSceneManager : MonoBehaviourPunCallbacks
     {
-        private enum Mode
-        {
-            Initial = 0,
-            Waiting,
-            Examiner,
-            Answerer
-        }
+        private readonly Dictionary<string, IDisposable> _disposables = new Dictionary<string, IDisposable>();
 
-        private Mode _currentMode = Mode.Answerer;
-        private readonly List<IDisposable> _disposables = new List<IDisposable>();
-
+        private bool _isReady;
         private void Start()
         {
             SceneController.Instance.SetCurrentSceneName("MainScene");
+            CanvasMain.Instance.SetButtonExitInteractable(false);
+            CanvasMain.Instance.SetButtonReadyInteractable(false);
+
             if (PhotonNetwork.InRoom)
             {
+                PhotonNetwork.SetPlayerCustomProperties(new Hashtable
+                {
+                    {"Status", PlayerStatus.NotReady},
+                    {"Answer", ""}
+                });
+                _disposables.Add(
+                    "PlayerListAdd",
+                    PlayerListModel.Players.ObserveAdd().Subscribe(_ =>
+                {
+                    CanvasPlayerList.Instance.UpdateMessages(PlayerListModel.GetPlayerList());
+                }));
                 
+                _disposables.Add(
+                    "PlayerListRemove",
+                    PlayerListModel.Players.ObserveRemove().Subscribe(_ =>
+                {
+                    CanvasPlayerList.Instance.UpdateMessages(PlayerListModel.GetPlayerList());
+                }));
+                
+                _disposables.Add(
+                    "PlayerListReplace",
+                    PlayerListModel.Players.ObserveReplace().Subscribe(_ =>
+                {
+                    CanvasPlayerList.Instance.UpdateMessages(PlayerListModel.GetPlayerList());
+                }));
+                
+                _disposables.Add(
+                    "PlayerListReset",
+                    PlayerListModel.Players.ObserveReset().Subscribe(_ =>
+                {
+                    CanvasPlayerList.Instance.UpdateMessages(PlayerListModel.GetPlayerList());
+                }));
+
+                _isReady = false;
+                EnableButtonExit();
+                EnableButtonReady();
             }
             else
             {
@@ -37,17 +69,59 @@ namespace SceneManagers
 
         private void OnDestroy()
         {
-            foreach (IDisposable disposable in _disposables) disposable.Dispose();
+            foreach (IDisposable disposable in _disposables.Values) disposable.Dispose();
         }
 
+        void EnableButtonExit()
+        {
+            _disposables.Add(
+                "OnClickButtonExit",
+                CanvasMain.Instance.OnClickButtonExit.Subscribe(_ =>
+                {
+                    PhotonNetwork.LeaveRoom();
+                }));
+            CanvasMain.Instance.SetButtonExitInteractable(true);
+        }
+
+        void DisableButtonExit()
+        {
+            Dispose("OnClickButtonExit");
+            CanvasMain.Instance.SetButtonExitInteractable(false);
+        }
+
+        void EnableButtonReady()
+        {
+            _disposables.Add(
+                "OnClickButtonReady",
+                CanvasMain.Instance.OnClickButtonReady.Subscribe(_ =>
+                {
+                    if (_isReady)
+                    {
+                        SetPlayerProperty("Status", PlayerStatus.NotReady);
+                        _isReady = false;
+                        EnableButtonExit();
+                    }
+                    else
+                    {
+                        SetPlayerProperty("Status", PlayerStatus.Ready);
+                        _isReady = true;
+                        DisableButtonExit();
+                    }
+
+                    CanvasMain.Instance.ChangeButtonReadyImage(_isReady);
+                }));
+            CanvasMain.Instance.SetButtonReadyInteractable(true);
+        }
+
+        void DisableButtonReady()
+        {
+            Dispose("OnClickButtonReady");
+            CanvasMain.Instance.SetButtonReadyInteractable(false);
+        }
+
+        /*
         private void ChangeMode(Mode mode)
         {
-            foreach (IDisposable disposable in _disposables)
-            {
-                disposable.Dispose();
-            }
-
-            _disposables.Clear();
 
             switch (mode)
             {
@@ -102,8 +176,44 @@ namespace SceneManagers
                     break;
                 }
             }
+        }
+        */
+        
+        void SetRoomProperty(string key, object value)
+        {
+            Hashtable hashtable = PhotonNetwork.CurrentRoom.CustomProperties;
+            hashtable[key] = value;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
+        }
 
-            _currentMode = mode;
+        void SetPlayerProperty(string key, object value)
+        {
+            Hashtable hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
+            hashtable[key] = value;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hashtable);
+        }
+        
+        private void Dispose(string key)
+        {
+            if (_disposables.ContainsKey(key))
+            {
+                _disposables[key].Dispose();
+                _disposables.Remove(key);
+            }
+        }
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            
+        }
+        
+        public override void OnConnectedToMaster()
+        {
+            PhotonNetwork.JoinLobby();
+        }
+
+        public override void OnJoinedLobby()
+        {
+            SceneController.Instance.ChangeScene("LobbyScene");
         }
     }
 }
