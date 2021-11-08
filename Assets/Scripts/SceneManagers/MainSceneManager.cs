@@ -262,7 +262,7 @@ namespace SceneManagers
             if ((int) PhotonNetwork.CurrentRoom.CustomProperties["Round"] < PhotonNetwork.CurrentRoom.PlayerCount)
             {
                 SetRoomProperty("Theme", ThemeModel.GetRandomTheme());
-                photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 10);
+                photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 60);
                 photonView.RPC(nameof(NextRound), RpcTarget.All);
                 photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 3);
                 yield return new WaitForSeconds(1.0f);
@@ -272,7 +272,7 @@ namespace SceneManagers
                 yield return new WaitForSeconds(1.0f);
                 photonView.RPC(nameof(HideImageCall), RpcTarget.All);
                 photonView.RPC(nameof(RoundStart), RpcTarget.All);
-                for (int count = 10; count > 0; count--)
+                for (int count = 60; count > 0; count--)
                 {
                     photonView.RPC(nameof(UpdateTimer), RpcTarget.All, count);
                     yield return new WaitForSeconds(1.0f);
