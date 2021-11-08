@@ -1,18 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
-public class PictureModel : MonoBehaviour
+namespace Models
 {
-    // Start is called before the first frame update
-    void Start()
+    public static class PictureModel
     {
-        
-    }
+        private static readonly ReactiveProperty<Color>[] _pixelsColor = new ReactiveProperty<Color>[64];
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public static readonly IReadOnlyReactiveProperty<Color>[]
+            PixelsColor = new IReadOnlyReactiveProperty<Color>[64];
+
+        static PictureModel()
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                _pixelsColor[i] = new ReactiveProperty<Color>(Color.white);
+                PixelsColor[i] = _pixelsColor[i];
+            }
+        }
+
+        public static void DrawPixel(int index, Color color)
+        {
+            _pixelsColor[index].Value = color;
+        }
+
+        public static void ClearCanvas()
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                _pixelsColor[i].Value = Color.white;
+            }
+        }
     }
 }

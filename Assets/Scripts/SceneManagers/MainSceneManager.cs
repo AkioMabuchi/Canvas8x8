@@ -312,6 +312,7 @@ namespace SceneManagers
             DisableButtonExit();
             DisableButtonReady();
             
+            PictureModel.ClearCanvas();
             CanvasTheme.Instance.InitializeText();
         }
 
@@ -323,6 +324,7 @@ namespace SceneManagers
             SetPlayerProperty("Status", PlayerStatus.NotReady);
             CanvasMain.Instance.ChangeButtonReadyImage(false);
 
+            PictureModel.ClearCanvas();
             CanvasTheme.Instance.InitializeText();
         }
 
@@ -348,6 +350,7 @@ namespace SceneManagers
                     EnableButtonReady();
                 }));
             
+            PictureModel.ClearCanvas();
             CanvasTheme.Instance.InitializeText();
             CanvasForceHalt.Instance.Show();
         }
@@ -364,6 +367,8 @@ namespace SceneManagers
 
             if (examiners[round] == PhotonNetwork.LocalPlayer.ActorNumber)
             {
+                PictureModel.ClearCanvas();
+                PalletModel.ChangeColor(Color.white);
                 CanvasPallet.Instance.Show();
                 SetPlayerProperty("Status", PlayerStatus.Examiner);
                 string answer = (string) PhotonNetwork.CurrentRoom.CustomProperties["Theme"];
@@ -387,8 +392,12 @@ namespace SceneManagers
             {
                 case PlayerStatus.Examiner:
                 {
-
-                    Debug.Log("絵を描け！");
+                    _disposables.Add(
+                        "OnClickImagePixel",
+                        CanvasPicture.Instance.OnClickImagePixel.Subscribe(index =>
+                        {
+                            photonView.RPC(nameof(DrawPixel), RpcTarget.All, index, PalletModel.CurrentColor.Value);
+                        }));
                     break;
                 }
                 case PlayerStatus.Answerer:
@@ -468,6 +477,7 @@ namespace SceneManagers
             {
                 case PlayerStatus.Examiner:
                 {
+                    Dispose("OnClickImagePixel");
                     break;
                 }
                 case PlayerStatus.Answerer:
@@ -489,6 +499,12 @@ namespace SceneManagers
                 StopAllCoroutines();
                 StartCoroutine(CoroutineAnswered());
             }
+        }
+
+        [PunRPC]
+        private void DrawPixel(int index, Color color)
+        {
+            PictureModel.DrawPixel(index, color);
         }
     }
 }

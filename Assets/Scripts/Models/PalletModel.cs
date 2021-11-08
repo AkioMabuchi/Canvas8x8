@@ -1,18 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
-public class PalletModel : MonoBehaviour
+namespace Models
 {
-    // Start is called before the first frame update
-    void Start()
+    public static class PalletModel
     {
-        
-    }
+        private static readonly ReactiveProperty<Color>[] _palletColors = new ReactiveProperty<Color>[20];
+        private static readonly ReactiveProperty<Color> _currentColor = new ReactiveProperty<Color>(Color.white);
+        public static IReadOnlyReactiveProperty<Color> CurrentColor => _currentColor;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        static PalletModel()
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                _palletColors[i] = new ReactiveProperty<Color>();
+            }
+        }
+
+        public static void SetPalletColor(int index, Color color)
+        {
+            _palletColors[index].Value = color;
+        }
+
+        public static void ChangeColor(int index)
+        {
+            _currentColor.Value = _palletColors[index].Value;
+        }
+
+        public static void ChangeColor(Color color)
+        {
+            _currentColor.Value = color;
+        }
     }
 }

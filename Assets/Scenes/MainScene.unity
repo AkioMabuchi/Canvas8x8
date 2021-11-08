@@ -753,12 +753,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 15
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 430, y: 30}
+  m_AnchoredPosition: {x: 130, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &163201900
@@ -781,11 +781,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 15
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -803,7 +803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2315,7 +2315,6 @@ GameObject:
   - component: {fileID: 421073404}
   - component: {fileID: 421073403}
   - component: {fileID: 421073402}
-  - component: {fileID: 421073408}
   m_Layer: 5
   m_Name: CanvasPicture
   m_TagString: Untagged
@@ -2335,6 +2334,71 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487309d1d7aed4d69902b5f821e41b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  imagesPixel:
+  - {fileID: 476062303}
+  - {fileID: 1039805598}
+  - {fileID: 2115869431}
+  - {fileID: 891140437}
+  - {fileID: 59184107}
+  - {fileID: 1395300544}
+  - {fileID: 1229522472}
+  - {fileID: 1986045806}
+  - {fileID: 876965996}
+  - {fileID: 325979209}
+  - {fileID: 8276157}
+  - {fileID: 455638655}
+  - {fileID: 1667707980}
+  - {fileID: 1513913888}
+  - {fileID: 2111424488}
+  - {fileID: 1366943599}
+  - {fileID: 467604195}
+  - {fileID: 1766470181}
+  - {fileID: 748051922}
+  - {fileID: 1854020960}
+  - {fileID: 1050343453}
+  - {fileID: 878243747}
+  - {fileID: 1148841851}
+  - {fileID: 507335088}
+  - {fileID: 350616859}
+  - {fileID: 2004421629}
+  - {fileID: 1828380574}
+  - {fileID: 1131213758}
+  - {fileID: 1332487550}
+  - {fileID: 463882559}
+  - {fileID: 1056928}
+  - {fileID: 1833295861}
+  - {fileID: 2017151232}
+  - {fileID: 412521867}
+  - {fileID: 2100088620}
+  - {fileID: 1415120526}
+  - {fileID: 1525866839}
+  - {fileID: 1316911388}
+  - {fileID: 769725120}
+  - {fileID: 340125450}
+  - {fileID: 522905891}
+  - {fileID: 1428114744}
+  - {fileID: 404632505}
+  - {fileID: 1214150259}
+  - {fileID: 1481903442}
+  - {fileID: 601014533}
+  - {fileID: 1364510443}
+  - {fileID: 765911462}
+  - {fileID: 857162761}
+  - {fileID: 2102494229}
+  - {fileID: 1035743878}
+  - {fileID: 793217191}
+  - {fileID: 394472129}
+  - {fileID: 321426363}
+  - {fileID: 305061021}
+  - {fileID: 1085159366}
+  - {fileID: 232704856}
+  - {fileID: 1793681303}
+  - {fileID: 1234374228}
+  - {fileID: 1053155832}
+  - {fileID: 1364553119}
+  - {fileID: 205385431}
+  - {fileID: 611448891}
+  - {fileID: 326140194}
 --- !u!114 &421073403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2429,28 +2493,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &421073408
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421073401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 1
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &429118944
 GameObject:
   m_ObjectHideFlags: 0
@@ -2479,27 +2521,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1658309564}
-  - {fileID: 1655872854}
-  - {fileID: 687689927}
-  - {fileID: 1107650864}
-  - {fileID: 1794408567}
-  - {fileID: 1625361852}
-  - {fileID: 1339847455}
-  - {fileID: 1956753493}
-  - {fileID: 1146283352}
-  - {fileID: 1514971710}
-  - {fileID: 1506314809}
-  - {fileID: 1395967792}
-  - {fileID: 1576457317}
-  - {fileID: 2128075768}
-  - {fileID: 1440058444}
-  - {fileID: 163201899}
-  - {fileID: 1813623054}
-  - {fileID: 574537890}
-  - {fileID: 976252084}
-  - {fileID: 1488119045}
+  m_Children: []
   m_Father: {fileID: 1637921205}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3476,8 +3498,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageFrame: {fileID: 1637921206}
-  transformColors: {fileID: 0}
-  prefab: {fileID: 0}
+  imageCurrentColor: {fileID: 429118946}
+  imagesColors:
+  - {fileID: 1658309566}
+  - {fileID: 1655872856}
+  - {fileID: 687689929}
+  - {fileID: 1107650866}
+  - {fileID: 1794408569}
+  - {fileID: 1625361854}
+  - {fileID: 1339847457}
+  - {fileID: 1956753495}
+  - {fileID: 1146283354}
+  - {fileID: 1514971712}
+  - {fileID: 1506314811}
+  - {fileID: 1395967794}
+  - {fileID: 1576457319}
+  - {fileID: 2128075770}
+  - {fileID: 1440058446}
+  - {fileID: 163201901}
+  - {fileID: 1813623056}
+  - {fileID: 574537892}
+  - {fileID: 976252086}
+  - {fileID: 1488119047}
 --- !u!1 &483482103
 GameObject:
   m_ObjectHideFlags: 0
@@ -4035,12 +4077,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 17
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: 30}
+  m_AnchoredPosition: {x: 250, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &574537891
@@ -4063,11 +4105,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 17
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -4085,7 +4127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.100000024, g: 0.24999988, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4695,12 +4737,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 2
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: -30}
+  m_AnchoredPosition: {x: -50, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &687689928
@@ -4723,11 +4765,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -4745,7 +4787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3, g: 0.10000001, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6047,12 +6089,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 18
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 610, y: 30}
+  m_AnchoredPosition: {x: 310, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &976252085
@@ -6075,11 +6117,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 18
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -6097,7 +6139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6968,12 +7010,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 3
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 310, y: -30}
+  m_AnchoredPosition: {x: 10, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1107650865
@@ -6996,11 +7038,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 3
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -7018,7 +7060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5, g: 0.25, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7178,12 +7220,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 8
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 610, y: -30}
+  m_AnchoredPosition: {x: 310, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1146283353
@@ -7206,11 +7248,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 8
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -7228,7 +7270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.85, g: 0.7, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8513,12 +8555,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 6
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 490, y: -30}
+  m_AnchoredPosition: {x: 190, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1339847456
@@ -8541,11 +8583,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 6
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -8563,7 +8605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.4, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9115,12 +9157,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 11
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 190, y: 30}
+  m_AnchoredPosition: {x: -110, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1395967793
@@ -9143,11 +9185,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 11
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -9165,7 +9207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9430,12 +9472,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 14
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 370, y: 30}
+  m_AnchoredPosition: {x: 70, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1440058445
@@ -9458,11 +9500,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 14
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -9480,7 +9522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9166666, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9760,12 +9802,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 19
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 670, y: 30}
+  m_AnchoredPosition: {x: 370, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1488119046
@@ -9788,11 +9830,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 19
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -9810,7 +9852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.100000024, b: 0.69999987, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10003,12 +10045,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 10
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 130, y: 30}
+  m_AnchoredPosition: {x: -170, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1506314810
@@ -10031,11 +10073,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 10
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -10213,12 +10255,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 9
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 670, y: -30}
+  m_AnchoredPosition: {x: 370, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1514971711
@@ -10241,11 +10283,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 9
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -10263,7 +10305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10554,12 +10596,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 12
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: 30}
+  m_AnchoredPosition: {x: -50, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1576457318
@@ -10582,11 +10624,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 12
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -10604,7 +10646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10659,12 +10701,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 5
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 430, y: -30}
+  m_AnchoredPosition: {x: 130, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1625361853
@@ -10687,11 +10729,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 5
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -10709,7 +10751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.85, b: 0.7, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10764,6 +10806,26 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 429118945}
+  - {fileID: 1658309564}
+  - {fileID: 1655872854}
+  - {fileID: 687689927}
+  - {fileID: 1107650864}
+  - {fileID: 1794408567}
+  - {fileID: 1625361852}
+  - {fileID: 1339847455}
+  - {fileID: 1956753493}
+  - {fileID: 1146283352}
+  - {fileID: 1514971710}
+  - {fileID: 1506314809}
+  - {fileID: 1395967792}
+  - {fileID: 1576457317}
+  - {fileID: 2128075768}
+  - {fileID: 1440058444}
+  - {fileID: 163201899}
+  - {fileID: 1813623054}
+  - {fileID: 574537890}
+  - {fileID: 976252084}
+  - {fileID: 1488119045}
   m_Father: {fileID: 481957043}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10840,12 +10902,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 1
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 190, y: -30}
+  m_AnchoredPosition: {x: -110, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1655872855
@@ -10868,11 +10930,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -10890,7 +10952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3, g: 0.3, b: 0.3, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10945,12 +11007,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 0
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 130, y: -30}
+  m_AnchoredPosition: {x: -170, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1658309565
@@ -10973,7 +11035,7 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -10995,7 +11057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7, g: 0.7, b: 0.7, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11838,12 +11900,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 4
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 370, y: -30}
+  m_AnchoredPosition: {x: 70, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1794408568
@@ -11866,11 +11928,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 4
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -11888,7 +11950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6, g: 0.45000002, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11943,12 +12005,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 16
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 490, y: 30}
+  m_AnchoredPosition: {x: 190, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1813623055
@@ -11971,11 +12033,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 16
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -11993,7 +12055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.39999998, g: 0.7999999, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12631,12 +12693,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 7
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 550, y: -30}
+  m_AnchoredPosition: {x: 250, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1956753494
@@ -12659,11 +12721,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 7
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -12681,7 +12743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0.5, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13679,12 +13741,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 429118945}
-  m_RootOrder: 13
+  m_Father: {fileID: 1637921205}
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 310, y: 30}
+  m_AnchoredPosition: {x: 10, y: 30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2128075769
@@ -13707,11 +13769,11 @@ MonoBehaviour:
         - m_Target: {fileID: 481957044}
           m_TargetAssemblyTypeName: Canvases.CanvasPallet, Assembly-CSharp
           m_MethodName: OnPointerDownImageButtonColor
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 13
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -13729,7 +13791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.5833334, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
