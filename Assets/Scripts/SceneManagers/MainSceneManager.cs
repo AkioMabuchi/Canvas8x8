@@ -207,7 +207,10 @@ namespace SceneManagers
         }
         public override void OnPlayerLeftRoom(Player otherPlayer)
         {
-            
+            if (_isPlaying && PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("私がマスタークライアントです");
+            }
         }
         
         public override void OnConnectedToMaster()
@@ -220,7 +223,7 @@ namespace SceneManagers
             SceneController.Instance.ChangeScene("LobbyScene");
         }
 
-        public void MainGameStart()
+        private void MainGameStart()
         {
             if (!_isPlaying && PhotonNetwork.CurrentRoom.PlayerCount >= 2 && PhotonNetwork.IsMasterClient)
             {
@@ -243,6 +246,25 @@ namespace SceneManagers
 
                 if (isEverybodyReady)
                 {
+                    PhotonNetwork.CurrentRoom.IsOpen = false;
+                    SetRoomProperty("Round", 0);
+                    int[] examinerTurn = new int[players.Count];
+                    for (int i = 0; i < examinerTurn.Length; i++)
+                    {
+                        examinerTurn[i] = players[i].ActorNumber;
+                    }
+
+                    {
+                        int i = examinerTurn.Length - 1;
+                        while (i > 0)
+                        {
+                            int j = UnityEngine.Random.Range(0, i);
+                            int tmp = examinerTurn[i];
+                            examinerTurn[i] = examinerTurn[j];
+                            examinerTurn[j] = tmp;
+                            i--;
+                        }
+                    }
                     photonView.RPC(nameof(MainGameStartCall), RpcTarget.All);
                 }
             }
@@ -251,9 +273,11 @@ namespace SceneManagers
         [PunRPC]
         private void MainGameStartCall()
         {
+
             _isPlaying = true;
             DisableButtonExit();
             DisableButtonReady();
+
             Debug.Log("ゲームを始めるぞ！");
         }
     }
