@@ -26,6 +26,8 @@ namespace SceneManagers
             CanvasForceHalt.Instance.Hide();
             CanvasCalls.Instance.HideImageCall();
             CanvasCalls.Instance.HideTextCall();
+            CanvasPallet.Instance.Hide();
+            CanvasAnswer.Instance.Hide();
 
             if (PhotonNetwork.InRoom)
             {
@@ -127,33 +129,6 @@ namespace SceneManagers
             CanvasMain.Instance.SetButtonReadyInteractable(false);
         }
 
-        /*
-        private void ChangeMode(Mode mode)
-        {
-
-            switch (mode)
-            {
-                case Mode.Initial:
-                {
-                    break;
-                }
-                case Mode.Waiting:
-                {
-                    break;
-                }
-                case Mode.Examiner:
-                {
-                    break;
-                }
-                case Mode.Answerer:
-                {
-
-                    break;
-                }
-            }
-        }
-        */
-        
         void SetRoomProperty(string key, object value)
         {
             Hashtable hashtable = PhotonNetwork.CurrentRoom.CustomProperties;
@@ -380,12 +355,16 @@ namespace SceneManagers
         [PunRPC]
         private void NextRound()
         {
+            CanvasPallet.Instance.Hide();
+            CanvasAnswer.Instance.Hide();
+            
             int round = (int) PhotonNetwork.CurrentRoom.CustomProperties["Round"];
 
             int[] examiners = (int[]) PhotonNetwork.CurrentRoom.CustomProperties["Examiners"];
 
             if (examiners[round] == PhotonNetwork.LocalPlayer.ActorNumber)
             {
+                CanvasPallet.Instance.Show();
                 SetPlayerProperty("Status", PlayerStatus.Examiner);
                 string answer = (string) PhotonNetwork.CurrentRoom.CustomProperties["Theme"];
                 CanvasTheme.Instance.SetThemeText("お題：" + answer);
@@ -393,6 +372,8 @@ namespace SceneManagers
             }
             else
             {
+                CanvasAnswer.Instance.ChangeMode(CanvasAnswer.InputFieldMode.Disabled);
+                CanvasAnswer.Instance.Show();
                 SetPlayerProperty("Status", PlayerStatus.Answerer);
                 CanvasTheme.Instance.SetThemeText("お題：？？？");
                 CanvasCalls.Instance.ShowTextCall("あなたは「回答者」です");
@@ -417,6 +398,23 @@ namespace SceneManagers
                         AnswerInputModel.InputText.Subscribe(text =>
                         {
                             CanvasAnswer.Instance.SetText(text);
+                            CanvasAnswer.Instance.ChangeMode(ThemeModel.CanBeAnswer(text)
+                                ? CanvasAnswer.InputFieldMode.Answerable
+                                : CanvasAnswer.InputFieldMode.Enabled);
+                        }));
+                    
+                    _disposables.Add(
+                        "AnswerClicked",
+                        CanvasAnswer.Instance.OnClickImageButtonAnswer.Subscribe(_ =>
+                        {
+                            string answer = AnswerInputModel.InputText.Value;
+
+                            if (ThemeModel.CanBeAnswer(answer))
+                            {
+                                photonView.RPC(nameof(Answer), RpcTarget.MasterClient, answer);
+                                SetPlayerProperty("Answer", answer);
+                                AnswerInputModel.Clear();
+                            }
                         }));
 
                     _disposables.Add(
@@ -476,6 +474,8 @@ namespace SceneManagers
                 {
                     Dispose("AnswerText");
                     Dispose("AnswerChar");
+                    Dispose("AnswerClick");
+                    CanvasAnswer.Instance.ChangeMode(CanvasAnswer.InputFieldMode.Disabled);
                     break;
                 }
             }
