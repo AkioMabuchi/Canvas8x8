@@ -429,7 +429,7 @@ namespace SceneManagers
                                 {
                                     string answer = AnswerInputModel.InputText.Value;
 
-                                    if (ThemeModel.CanBeAnswer("りんご"))
+                                    if (ThemeModel.CanBeAnswer(answer))
                                     {
                                         photonView.RPC(nameof(Answer), RpcTarget.MasterClient, answer);
                                         SetPlayerProperty("Answer", answer);

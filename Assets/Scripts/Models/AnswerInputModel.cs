@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Managers;
 using UniRx;
@@ -459,7 +460,7 @@ namespace Models
 
         static void TextOutput()
         {
-            string text = "";
+            string text = String.Empty;
             foreach (char character in _inputProcess)
             {
                 text += character;
