@@ -22,6 +22,7 @@ namespace SceneManagers
             SceneController.Instance.SetCurrentSceneName("MainScene");
             CanvasMain.Instance.SetButtonExitInteractable(false);
             CanvasMain.Instance.SetButtonReadyInteractable(false);
+            CanvasForceHalt.Instance.Hide();
 
             if (PhotonNetwork.InRoom)
             {
@@ -209,7 +210,8 @@ namespace SceneManagers
         {
             if (_isPlaying && PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("私がマスタークライアントです");
+                PhotonNetwork.CurrentRoom.IsOpen = true;
+                photonView.RPC(nameof(MainGameForceFinish), RpcTarget.All);
             }
         }
         
@@ -279,6 +281,28 @@ namespace SceneManagers
             DisableButtonReady();
 
             Debug.Log("ゲームを始めるぞ！");
+        }
+
+        [PunRPC]
+        private void MainGameForceFinish()
+        {
+            _isPlaying = false;
+            _isReady = false;
+            SetPlayerProperty("Status", PlayerStatus.NotReady);
+            
+            _disposables.Add(
+                "OnClickButtonErrorFormClose",
+                CanvasForceHalt.Instance.OnClickButtonClose.Subscribe(_ =>
+                {
+                    Dispose("OnClickButtonErrorFormClose");
+                    
+                    CanvasForceHalt.Instance.Hide();
+
+                    EnableButtonExit();
+                    EnableButtonReady();
+                }));
+            
+            CanvasForceHalt.Instance.Show();
         }
     }
 }
