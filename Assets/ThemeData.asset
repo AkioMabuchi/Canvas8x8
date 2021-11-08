@@ -12,25 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4250ab0843e73456fac796344db56d6a, type: 3}
   m_Name: ThemeData
   m_EditorClassIdentifier: 
-  themes: []
+  themes:
+  - "\u308A\u3093\u3054"
+  - "\u3076\u3069\u3046"
+  - "\u3070\u306A\u306A"
+  - "\u3075\u308B\u30FC\u3068"
+  - "\u3070\u3044\u304A\u308A\u3093"
+  - "\u3074\u3042\u306E"
+  - "\u305F\u307E\u306D\u304E"
+  - "\u304D\u3085\u3046\u308A"
+  - "\u306B\u3093\u3058\u3093"
+  - "\u3058\u3083\u3050\u3061"
+  - "\u3059\u3057"
   relations:
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
-  - theme: 
-    synonym: 
+  - theme: "\u3059\u3057"
+    synonym: "\u304A\u3059\u3057"

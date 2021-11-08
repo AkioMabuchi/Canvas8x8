@@ -1,13 +1,14 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Canvases;
-using ExitGames.Client.Photon;
 using Managers;
 using Models;
 using Photon.Pun;
 using Photon.Realtime;
 using UniRx;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace SceneManagers
 {
@@ -23,6 +24,8 @@ namespace SceneManagers
             CanvasMain.Instance.SetButtonExitInteractable(false);
             CanvasMain.Instance.SetButtonReadyInteractable(false);
             CanvasForceHalt.Instance.Hide();
+            CanvasCalls.Instance.HideImageCall();
+            CanvasCalls.Instance.HideTextCall();
 
             if (PhotonNetwork.InRoom)
             {
@@ -248,34 +251,117 @@ namespace SceneManagers
 
                 if (isEverybodyReady)
                 {
-                    PhotonNetwork.CurrentRoom.IsOpen = false;
-                    SetRoomProperty("Round", 0);
-                    int[] examinerTurn = new int[players.Count];
-                    for (int i = 0; i < examinerTurn.Length; i++)
-                    {
-                        examinerTurn[i] = players[i].ActorNumber;
-                    }
-
-                    {
-                        int i = examinerTurn.Length - 1;
-                        while (i > 0)
-                        {
-                            int j = UnityEngine.Random.Range(0, i);
-                            int tmp = examinerTurn[i];
-                            examinerTurn[i] = examinerTurn[j];
-                            examinerTurn[j] = tmp;
-                            i--;
-                        }
-                    }
-                    photonView.RPC(nameof(MainGameStartCall), RpcTarget.All);
+                    StartCoroutine(CoroutineGameStart());
                 }
             }
         }
 
+        private IEnumerator CoroutineGameStart()
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            
+            IReadOnlyList<Player> players = PlayerListModel.GetPlayerList();
+
+            int[] examinerTurn = new int[players.Count];
+            for (int i = 0; i < examinerTurn.Length; i++)
+            {
+                examinerTurn[i] = players[i].ActorNumber;
+            }
+
+            {
+                int i = examinerTurn.Length - 1;
+                while (i > 0)
+                {
+                    int j = UnityEngine.Random.Range(0, i);
+                    int tmp = examinerTurn[i];
+                    examinerTurn[i] = examinerTurn[j];
+                    examinerTurn[j] = tmp;
+                    i--;
+                }
+            }
+            
+            SetRoomProperty("Round", 0);
+            SetRoomProperty("Examiners", examinerTurn);
+            photonView.RPC(nameof(MainGameStartCall), RpcTarget.All);
+            photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 0); // Game Startのサインを出す
+            yield return new WaitForSeconds(1.0f);
+            photonView.RPC(nameof(HideImageCall), RpcTarget.All);
+            yield return new WaitForSeconds(0.2f);
+            StartCoroutine(CoroutineNextRound());
+        }
+
+        private IEnumerator CoroutineNextRound()
+        {
+            if ((int) PhotonNetwork.CurrentRoom.CustomProperties["Round"] < PhotonNetwork.CurrentRoom.PlayerCount)
+            {
+                SetRoomProperty("Theme", ThemeModel.GetRandomTheme());
+                photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 10);
+                photonView.RPC(nameof(NextRound), RpcTarget.All);
+                photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 3);
+                yield return new WaitForSeconds(1.0f);
+                photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 2);
+                yield return new WaitForSeconds(1.0f);
+                photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 1);
+                yield return new WaitForSeconds(1.0f);
+                photonView.RPC(nameof(RoundStart), RpcTarget.All);
+                for (int count = 10; count > 0; count--)
+                {
+                    photonView.RPC(nameof(UpdateTimer), RpcTarget.All, count);
+                    yield return new WaitForSeconds(1.0f);
+                }
+                photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 0);
+                photonView.RPC(nameof(RoundEnd), RpcTarget.All);
+                photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 5); // TimeUpのサインを出す
+                yield return new WaitForSeconds(3.0f);
+                photonView.RPC(nameof(HideImageCall), RpcTarget.All);
+                yield return new WaitForSeconds(0.2f);
+                StartCoroutine(CoroutineNextRound());
+            }
+            else
+            {
+                photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 6); // GameEndのサインを出す
+                yield return new WaitForSeconds(3.0f);
+                photonView.RPC(nameof(HideImageCall), RpcTarget.All);
+                yield return new WaitForSeconds(0.2f);
+                photonView.RPC(nameof(MainGameEndCall), RpcTarget.All);
+                PhotonNetwork.CurrentRoom.IsOpen = true;
+            }
+        }
+
+        private IEnumerator CoroutineAnswered()
+        {
+            photonView.RPC(nameof(RoundEnd), RpcTarget.All);
+            photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 4); // Answered!!のサインを出す
+            yield return new WaitForSeconds(3.0f);
+            photonView.RPC(nameof(HideImageCall), RpcTarget.All);
+            yield return new WaitForSeconds(0.2f);
+            
+            int nextRound = (int) PhotonNetwork.CurrentRoom.CustomProperties["Round"] + 1;
+            SetRoomProperty("Round", nextRound);
+            StartCoroutine(CoroutineNextRound());
+        }
+
+
+        [PunRPC]
+        private void ShowImageCall(int index)
+        {
+            CanvasCalls.Instance.ShowImageCall(index);
+        }
+
+        [PunRPC]
+        private void HideImageCall()
+        {
+            CanvasCalls.Instance.HideImageCall();
+        }
+
+        [PunRPC]
+        private void UpdateTimer(int count)
+        {
+            Debug.Log("のこり：" + count + "秒");
+        }
         [PunRPC]
         private void MainGameStartCall()
         {
-
             _isPlaying = true;
             DisableButtonExit();
             DisableButtonReady();
@@ -284,11 +370,25 @@ namespace SceneManagers
         }
 
         [PunRPC]
+        private void MainGameEndCall()
+        {
+            _isPlaying = true;
+            _isReady = false;
+            SetPlayerProperty("Status", PlayerStatus.NotReady);
+            CanvasMain.Instance.ChangeButtonReadyImage(false);
+
+            Debug.Log("お疲れ様でした");
+        }
+
+        [PunRPC]
         private void MainGameForceFinish()
         {
+            StopAllCoroutines();
+            
             _isPlaying = false;
             _isReady = false;
             SetPlayerProperty("Status", PlayerStatus.NotReady);
+            CanvasMain.Instance.ChangeButtonReadyImage(false);
             
             _disposables.Add(
                 "OnClickButtonErrorFormClose",
@@ -303,6 +403,60 @@ namespace SceneManagers
                 }));
             
             CanvasForceHalt.Instance.Show();
+        }
+
+        [PunRPC]
+        private void NextRound()
+        {
+            int round = (int) PhotonNetwork.CurrentRoom.CustomProperties["Round"];
+
+            int[] examiners = (int[]) PhotonNetwork.CurrentRoom.CustomProperties["Examiners"];
+
+            if (examiners[round] == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                SetPlayerProperty("Status", PlayerStatus.Examiner);
+                CanvasCalls.Instance.ShowTextCall("あなたは「出題者」です");
+            }
+            else
+            {
+                SetPlayerProperty("Status", PlayerStatus.Answerer);
+                CanvasCalls.Instance.ShowTextCall("あなたは「回答者」です");
+            }
+        }
+
+        [PunRPC]
+        private void RoundStart()
+        {
+            switch ((PlayerStatus) PhotonNetwork.LocalPlayer.CustomProperties["Status"])
+            {
+                case PlayerStatus.Examiner:
+                {
+                    Debug.Log("絵を描け！");
+                    break;
+                }
+                case PlayerStatus.Answerer:
+                {
+                    Debug.Log("タイピングの時間だ！");
+                    break;
+                }
+            }
+            CanvasCalls.Instance.HideTextCall();
+        }
+
+        [PunRPC]
+        private void RoundEnd()
+        {
+            Debug.Log("ラウンド終了だ！");
+        }
+        
+        [PunRPC]
+        private void Answer(string answer) // このメソッドはマスタークライアントのみ実行していい
+        {
+            if ((string) PhotonNetwork.CurrentRoom.CustomProperties["Theme"] == ThemeModel.Answer(answer))
+            {
+                StopAllCoroutines();
+                StartCoroutine(CoroutineAnswered());
+            }
         }
     }
 }

@@ -41,6 +41,15 @@ MonoBehaviour:
   - RespawnSpaceship
   - MainGameStartCall
   - MainGameForceFinish
+  - Answer
+  - NextRound
+  - NextRoundStart
+  - HideImageCall
+  - MainGameEndCall
+  - RoundEnd
+  - RoundStart
+  - ShowImageCall
+  - UpdateTimer
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
