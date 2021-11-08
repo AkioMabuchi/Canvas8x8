@@ -15,6 +15,7 @@ namespace SceneManagers
     {
         private readonly Dictionary<string, IDisposable> _disposables = new Dictionary<string, IDisposable>();
 
+        private bool _isPlaying;
         private bool _isReady;
         private void Start()
         {
@@ -34,6 +35,7 @@ namespace SceneManagers
                     PlayerListModel.Players.ObserveAdd().Subscribe(_ =>
                 {
                     CanvasPlayerList.Instance.UpdateMessages(PlayerListModel.GetPlayerList());
+                    MainGameStart();
                 }));
                 
                 _disposables.Add(
@@ -41,6 +43,7 @@ namespace SceneManagers
                     PlayerListModel.Players.ObserveRemove().Subscribe(_ =>
                 {
                     CanvasPlayerList.Instance.UpdateMessages(PlayerListModel.GetPlayerList());
+                    MainGameStart();
                 }));
                 
                 _disposables.Add(
@@ -48,6 +51,7 @@ namespace SceneManagers
                     PlayerListModel.Players.ObserveReplace().Subscribe(_ =>
                 {
                     CanvasPlayerList.Instance.UpdateMessages(PlayerListModel.GetPlayerList());
+                    MainGameStart();
                 }));
                 
                 _disposables.Add(
@@ -214,6 +218,43 @@ namespace SceneManagers
         public override void OnJoinedLobby()
         {
             SceneController.Instance.ChangeScene("LobbyScene");
+        }
+
+        public void MainGameStart()
+        {
+            if (!_isPlaying && PhotonNetwork.CurrentRoom.PlayerCount >= 2 && PhotonNetwork.IsMasterClient)
+            {
+                bool isEverybodyReady = true;
+                IReadOnlyList<Player> players = PlayerListModel.GetPlayerList();
+                foreach (Player player in players)
+                {
+                    if (player.CustomProperties.ContainsKey("Status"))
+                    {
+                        if ((PlayerStatus) player.CustomProperties["Status"] != PlayerStatus.Ready)
+                        {
+                            isEverybodyReady = false;
+                        }
+                    }
+                    else
+                    {
+                        isEverybodyReady = false;
+                    }
+                }
+
+                if (isEverybodyReady)
+                {
+                    photonView.RPC(nameof(MainGameStartCall), RpcTarget.All);
+                }
+            }
+        }
+
+        [PunRPC]
+        private void MainGameStartCall()
+        {
+            _isPlaying = true;
+            DisableButtonExit();
+            DisableButtonReady();
+            Debug.Log("ゲームを始めるぞ！");
         }
     }
 }
