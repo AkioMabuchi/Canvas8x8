@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Authentication;
-using System.Text;
-
-#if UNITY_WEBGL || WEBSOCKET || ((UNITY_XBOXONE || UNITY_GAMECORE) && UNITY_EDITOR)
+﻿#if UNITY_WEBGL || WEBSOCKET || ((UNITY_XBOXONE || UNITY_GAMECORE) && UNITY_EDITOR)
 
 // --------------------------------------------------------------------------------------------------------------------
 // <summary>
@@ -13,14 +8,17 @@ using System.Text;
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace Photon.PhotonLibs.WebSocket
+namespace ExitGames.Client.Photon
 {
-#if UNITY_WEBGL && !UNITY_EDITOR
+    using System;
+    using System.Text;
+    #if UNITY_WEBGL && !UNITY_EDITOR
     using System.Runtime.InteropServices;
     #else
     using WebSocketSharp;
-
-#endif
+    using System.Collections.Generic;
+    using System.Security.Authentication;
+    #endif
 
 
     public class WebSocket

@@ -21,6 +21,7 @@ namespace Managers
     {
         private void Start()
         {
+            
             PhotonNetwork.GameVersion = "1.0.0";
         }
 

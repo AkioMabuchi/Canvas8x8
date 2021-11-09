@@ -108,18 +108,48 @@ namespace SceneManagers
 
         public override void OnDisconnected(DisconnectCause cause)
         {
+            Debug.Log(cause);
             switch (cause)
             {
+                case DisconnectCause.Exception:
+                {
+                    ShowErrorDialog("例外が発生しました");
+                    break;
+                }
+                case DisconnectCause.ClientTimeout:
+                {
+                    ShowErrorDialog("クライアントタイムアウト発生");
+                    break;
+                }
                 case DisconnectCause.MaxCcuReached:
                 {
-                    CanvasTitleError.Instance.SetMessageText("サーバーが満員のため、接続できませんでした");
-                    ShowErrorDialog();
+                    ShowErrorDialog("サーバーが満員のため、接続できませんでした");
+                    break;
+                }
+                case DisconnectCause.InvalidAuthentication:
+                {
+                    ShowErrorDialog("InvalidAuthentication");
+                    break;
+                }
+                case DisconnectCause.InvalidRegion:
+                {
+                    ShowErrorDialog("InvalidRegion");
+                    break;
+                }
+                case DisconnectCause.ServerTimeout:
+                {
+                    ShowErrorDialog("サーバーがタイムアウトしました");
+                    break;
+                }
+                case DisconnectCause.ExceptionOnConnect:
+                {
+                    ShowErrorDialog("例外が発生し、接続できませんでした");
                     break;
                 }
             }
         }
 
-        private void ShowErrorDialog()
+        private void ShowErrorDialog(string errorMessage)
         {
             _disposables.Add(
                 "ButtonErrorCancel",
@@ -130,6 +160,7 @@ namespace SceneManagers
                     EnableUserControl();
                 }));
             CanvasTitleConnecting.Instance.Hide();
+            CanvasTitleError.Instance.SetMessageText(errorMessage);
             CanvasTitleError.Instance.Show();
         }
     }

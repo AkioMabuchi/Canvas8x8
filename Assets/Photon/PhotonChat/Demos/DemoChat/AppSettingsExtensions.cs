@@ -5,10 +5,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-using Photon.Chat;
 using Photon.Realtime;
 
-namespace Photon.PhotonChat.Demos.DemoChat
+
+namespace Photon.Chat.Demo
 {
     public static class AppSettingsExtensions
     {
