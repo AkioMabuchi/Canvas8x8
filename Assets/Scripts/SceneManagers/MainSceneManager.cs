@@ -20,6 +20,7 @@ namespace SceneManagers
         private void Start()
         {
             SceneController.Instance.SetCurrentSceneName("MainScene");
+            
             CanvasMain.Instance.SetButtonExitInteractable(false);
             CanvasMain.Instance.SetButtonReadyInteractable(false);
             CanvasForceHalt.Instance.Hide();
@@ -27,6 +28,10 @@ namespace SceneManagers
             CanvasCalls.Instance.HideTextCall();
             CanvasPallet.Instance.Hide();
             CanvasAnswer.Instance.Hide();
+            CanvasTimer.Instance.SetCountTextByInt(0);
+            PictureModel.ClearCanvas();
+            AnswerInputModel.Clear();
+            CanvasTheme.Instance.InitializeText();
 
             if (PhotonNetwork.InRoom)
             {
@@ -81,7 +86,8 @@ namespace SceneManagers
             foreach (IDisposable disposable in _disposables.Values) disposable.Dispose();
         }
 
-        void EnableButtonExit()
+
+        private void EnableButtonExit()
         {
             _disposables.Add(
                 "OnClickButtonExit",
@@ -92,13 +98,13 @@ namespace SceneManagers
             CanvasMain.Instance.SetButtonExitInteractable(true);
         }
 
-        void DisableButtonExit()
+        private void DisableButtonExit()
         {
             Dispose("OnClickButtonExit");
             CanvasMain.Instance.SetButtonExitInteractable(false);
         }
 
-        void EnableButtonReady()
+        private void EnableButtonReady()
         {
             _disposables.Add(
                 "OnClickButtonReady",
@@ -122,20 +128,20 @@ namespace SceneManagers
             CanvasMain.Instance.SetButtonReadyInteractable(true);
         }
 
-        void DisableButtonReady()
+        private void DisableButtonReady()
         {
             Dispose("OnClickButtonReady");
             CanvasMain.Instance.SetButtonReadyInteractable(false);
         }
 
-        void SetRoomProperty(string key, object value)
+        private void SetRoomProperty(string key, object value)
         {
             Hashtable hashtable = PhotonNetwork.CurrentRoom.CustomProperties;
             hashtable[key] = value;
             PhotonNetwork.CurrentRoom.SetCustomProperties(hashtable);
         }
 
-        void SetPlayerProperty(string key, object value)
+        private void SetPlayerProperty(string key, object value)
         {
             Hashtable hashtable = PhotonNetwork.LocalPlayer.CustomProperties;
             hashtable[key] = value;
@@ -313,6 +319,8 @@ namespace SceneManagers
             
             PictureModel.ClearCanvas();
             CanvasTheme.Instance.InitializeText();
+            CanvasPallet.Instance.Hide();
+            CanvasAnswer.Instance.Hide();
         }
 
         [PunRPC]
@@ -322,9 +330,18 @@ namespace SceneManagers
             _isReady = false;
             SetPlayerProperty("Status", PlayerStatus.NotReady);
             CanvasMain.Instance.ChangeButtonReadyImage(false);
-
+            
+            CanvasForceHalt.Instance.Hide();
+            CanvasCalls.Instance.HideImageCall();
+            CanvasCalls.Instance.HideTextCall();
+            CanvasPallet.Instance.Hide();
+            CanvasAnswer.Instance.Hide();
+            CanvasTimer.Instance.SetCountTextByInt(0);
             PictureModel.ClearCanvas();
+            AnswerInputModel.Clear();
             CanvasTheme.Instance.InitializeText();
+            EnableButtonExit();
+            EnableButtonReady();
         }
 
         [PunRPC]
@@ -349,9 +366,15 @@ namespace SceneManagers
                     EnableButtonReady();
                 }));
             
-            PictureModel.ClearCanvas();
-            CanvasTheme.Instance.InitializeText();
             CanvasForceHalt.Instance.Show();
+            CanvasCalls.Instance.HideImageCall();
+            CanvasCalls.Instance.HideTextCall();
+            CanvasPallet.Instance.Hide();
+            CanvasAnswer.Instance.Hide();
+            CanvasTimer.Instance.SetCountTextByInt(0);
+            PictureModel.ClearCanvas();
+            AnswerInputModel.Clear();
+            CanvasTheme.Instance.InitializeText();
         }
 
         [PunRPC]
