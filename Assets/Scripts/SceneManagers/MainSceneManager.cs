@@ -17,6 +17,8 @@ namespace SceneManagers
 
         private bool _isPlaying;
         private bool _isReady;
+        private bool _isAnswered;
+        
         private void Start()
         {
             SceneController.Instance.SetCurrentSceneName("MainScene");
@@ -206,7 +208,7 @@ namespace SceneManagers
         private IEnumerator CoroutineGameStart()
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            
+
             IReadOnlyList<Player> players = PlayerListModel.GetPlayerList();
 
             int[] examinerTurn = new int[players.Count];
@@ -226,7 +228,7 @@ namespace SceneManagers
                     i--;
                 }
             }
-            
+
             SetRoomProperty("Round", 0);
             SetRoomProperty("Examiners", examinerTurn);
             photonView.RPC(nameof(MainGameStartCall), RpcTarget.All);
@@ -234,12 +236,8 @@ namespace SceneManagers
             yield return new WaitForSeconds(3.0f);
             photonView.RPC(nameof(HideImageCall), RpcTarget.All);
             yield return new WaitForSeconds(0.5f);
-            StartCoroutine(CoroutineNextRound());
-        }
 
-        private IEnumerator CoroutineNextRound()
-        {
-            if ((int) PhotonNetwork.CurrentRoom.CustomProperties["Round"] < PhotonNetwork.CurrentRoom.PlayerCount)
+            while ((int) PhotonNetwork.CurrentRoom.CustomProperties["Round"] < PhotonNetwork.CurrentRoom.PlayerCount)
             {
                 SetRoomProperty("Theme", ThemeModel.GetRandomTheme());
                 photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 60);
@@ -254,44 +252,41 @@ namespace SceneManagers
                 photonView.RPC(nameof(RoundStart), RpcTarget.All);
                 for (int count = 60; count > 0; count--)
                 {
+                    if (_isAnswered) continue;
                     photonView.RPC(nameof(UpdateTimer), RpcTarget.All, count);
-                    yield return new WaitForSeconds(1.0f);
+                    for (int i = 0; i < 50; i++)
+                    {
+                        if (_isAnswered) continue;
+                        yield return new WaitForFixedUpdate();
+                    }
                 }
-                photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 0);
+                
+                if (_isAnswered)
+                {
+                    photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 0);
+                    photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 5); // TimeUpのサインを出す
+                }
+                else
+                {
+                    photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 4); // Answered!のサインを出す
+                }
+
                 photonView.RPC(nameof(RoundEnd), RpcTarget.All);
-                photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 5); // TimeUpのサインを出す
                 yield return new WaitForSeconds(3.0f);
                 photonView.RPC(nameof(HideImageCall), RpcTarget.All);
-                yield return new WaitForSeconds(0.2f);
-                
+
                 int nextRound = (int) PhotonNetwork.CurrentRoom.CustomProperties["Round"] + 1;
                 SetRoomProperty("Round", nextRound);
-                StartCoroutine(CoroutineNextRound());
+                yield return new WaitForSeconds(0.5f);
             }
-            else
-            {
-                photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 6); // GameEndのサインを出す
-                yield return new WaitForSeconds(3.0f);
-                photonView.RPC(nameof(HideImageCall), RpcTarget.All);
-                yield return new WaitForSeconds(0.2f);
-                photonView.RPC(nameof(MainGameEndCall), RpcTarget.All);
-                PhotonNetwork.CurrentRoom.IsOpen = true;
-            }
-        }
 
-        private IEnumerator CoroutineAnswered()
-        {
-            photonView.RPC(nameof(RoundEnd), RpcTarget.All);
-            photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 4); // Answered!!のサインを出す
+            photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 6); // GameEndのサインを出す
             yield return new WaitForSeconds(3.0f);
             photonView.RPC(nameof(HideImageCall), RpcTarget.All);
             yield return new WaitForSeconds(0.2f);
-            
-            int nextRound = (int) PhotonNetwork.CurrentRoom.CustomProperties["Round"] + 1;
-            SetRoomProperty("Round", nextRound);
-            StartCoroutine(CoroutineNextRound());
+            photonView.RPC(nameof(MainGameEndCall), RpcTarget.All);
+            PhotonNetwork.CurrentRoom.IsOpen = true;
         }
-
 
         [PunRPC]
         private void ShowImageCall(int index)
@@ -351,7 +346,9 @@ namespace SceneManagers
             
             _isPlaying = false;
             _isReady = false;
+            _isAnswered = false;
             SetPlayerProperty("Status", PlayerStatus.NotReady);
+            DisposeGameInputs();
             CanvasMain.Instance.ChangeButtonReadyImage(false);
             
             _disposables.Add(
@@ -428,17 +425,7 @@ namespace SceneManagers
                 case PlayerStatus.Answerer:
                 {
                     _disposables.Add(
-                        "AnswerText",
-                        AnswerInputModel.InputText.Subscribe(text =>
-                        {
-                            CanvasAnswer.Instance.SetText(text);
-                            CanvasAnswer.Instance.ChangeMode(ThemeModel.CanBeAnswer(text)
-                                ? CanvasAnswer.InputFieldMode.Answerable
-                                : CanvasAnswer.InputFieldMode.Enabled);
-                        }));
-                    
-                    _disposables.Add(
-                        "AnswerClicked",
+                        "OnSendAnswer",
                         CanvasAnswer.Instance.OnClickImageButtonAnswer.Subscribe(_ =>
                         {
                             string answer = AnswerInputModel.InputText.Value;
@@ -452,7 +439,7 @@ namespace SceneManagers
                         }));
 
                     _disposables.Add(
-                        "AnswerChar",
+                        "OnInputAnswerChar",
                         InputAnswerManager.Instance.OnInputKey.Subscribe(inputChar =>
                         {
                             switch (inputChar)
@@ -486,6 +473,7 @@ namespace SceneManagers
                                 }
                             }
                         }));
+                    SetPlayerProperty("Answer", "");
                     AnswerInputModel.Clear();
                     break;
                 }
@@ -498,22 +486,7 @@ namespace SceneManagers
         {
             string answer = (string) PhotonNetwork.CurrentRoom.CustomProperties["Theme"];
             CanvasTheme.Instance.SetThemeText("お題：" + answer);
-            switch ((PlayerStatus) PhotonNetwork.LocalPlayer.CustomProperties["Status"])
-            {
-                case PlayerStatus.Examiner:
-                {
-                    Dispose("OnClickImagePixel");
-                    break;
-                }
-                case PlayerStatus.Answerer:
-                {
-                    Dispose("AnswerText");
-                    Dispose("AnswerChar");
-                    Dispose("AnswerClick");
-                    CanvasAnswer.Instance.ChangeMode(CanvasAnswer.InputFieldMode.Disabled);
-                    break;
-                }
-            }
+            DisposeGameInputs();
         }
         
         [PunRPC]
@@ -521,8 +494,7 @@ namespace SceneManagers
         {
             if ((string) PhotonNetwork.CurrentRoom.CustomProperties["Theme"] == ThemeModel.Answer(answer))
             {
-                StopAllCoroutines();
-                StartCoroutine(CoroutineAnswered());
+                _isAnswered = true;
             }
         }
 
@@ -531,6 +503,13 @@ namespace SceneManagers
         {
             Color color = new Color(r, g, b);
             PictureModel.DrawPixel(index, color);
+        }
+
+        private void DisposeGameInputs()
+        {
+            Dispose("OnClickImagePixel");
+            Dispose("OnSendAnswer");
+            Dispose("OnInputAnswerChar");
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Models;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -25,6 +26,17 @@ public class CanvasAnswer : SingletonMonoBehaviour<CanvasAnswer>
     private readonly Subject<Unit> _onClickImageButtonAnswer = new Subject<Unit>();
     public IObservable<Unit> OnClickImageButtonAnswer => _onClickImageButtonAnswer;
 
+    protected override void OnAwake()
+    {
+        AnswerInputModel.InputText.Subscribe(text =>
+        {
+            textMeshProInputText.text = text;
+            float caratPositionX = textMeshProInputText.preferredWidth - 270.0f;
+            imageCaret.transform.localPosition = new Vector3(caratPositionX, 0.0f, 0.0f);
+            ChangeMode(ThemeModel.CanBeAnswer(text) ? InputFieldMode.Answerable : InputFieldMode.Enabled);
+        });
+    }
+
     public void Show()
     {
         imageFrame.gameObject.SetActive(true);
@@ -48,13 +60,7 @@ public class CanvasAnswer : SingletonMonoBehaviour<CanvasAnswer>
         imageButtonAnswer.sprite = mode == InputFieldMode.Answerable ? spriteAnswerEnabled : spriteAnswerDisabled;
         imageCaret.gameObject.SetActive(mode != InputFieldMode.Disabled);
     }
-    public void SetText(string text)
-    {
-        textMeshProInputText.text = text;
-        float caratPositionX = textMeshProInputText.preferredWidth - 270.0f;
-        imageCaret.transform.localPosition = new Vector3(caratPositionX, 0.0f, 0.0f);
-    }
-
+    
     public void OnPointerDownImageButtonAnswer()
     {
         _onClickImageButtonAnswer.OnNext(Unit.Default);
