@@ -509,6 +509,7 @@ namespace SceneManagers
 
         private void DisposeGameInputs()
         {
+            CanvasAnswer.Instance.ChangeMode(CanvasAnswer.InputFieldMode.Disabled);
             Dispose("OnClickImagePixel");
             Dispose("OnSendAnswer");
             Dispose("OnInputAnswerChar");
