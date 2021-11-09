@@ -263,12 +263,12 @@ namespace SceneManagers
                 
                 if (_isAnswered)
                 {
-                    photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 0);
-                    photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 5); // TimeUpのサインを出す
+                    photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 4); // Answered!のサインを出す
                 }
                 else
                 {
-                    photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 4); // Answered!のサインを出す
+                    photonView.RPC(nameof(UpdateTimer), RpcTarget.All, 0);
+                    photonView.RPC(nameof(ShowImageCall), RpcTarget.All, 5); // TimeUpのサインを出す
                 }
 
                 photonView.RPC(nameof(RoundEnd), RpcTarget.All);
@@ -380,7 +380,8 @@ namespace SceneManagers
             CanvasPallet.Instance.Hide();
             CanvasAnswer.Instance.Hide();
             PictureModel.ClearCanvas();
-            
+            SetPlayerProperty("Answer", "");
+            _isAnswered = false;
             int round = (int) PhotonNetwork.CurrentRoom.CustomProperties["Round"];
 
             int[] examiners = (int[]) PhotonNetwork.CurrentRoom.CustomProperties["Examiners"];
@@ -473,7 +474,8 @@ namespace SceneManagers
                                 }
                             }
                         }));
-                    SetPlayerProperty("Answer", "");
+
+                    CanvasAnswer.Instance.ChangeMode(CanvasAnswer.InputFieldMode.Enabled);
                     AnswerInputModel.Clear();
                     break;
                 }
