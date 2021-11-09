@@ -396,7 +396,9 @@ namespace SceneManagers
                         "OnClickImagePixel",
                         CanvasPicture.Instance.OnClickImagePixel.Subscribe(index =>
                         {
-                            photonView.RPC(nameof(DrawPixel), RpcTarget.All, index, PalletModel.CurrentColor.Value);
+                            Color color = PalletModel.CurrentColor.Value;
+                            photonView.RPC(nameof(DrawPixel), RpcTarget.All, index,
+                                color.r, color.g, color.b);
                         }));
                     break;
                 }
@@ -502,8 +504,9 @@ namespace SceneManagers
         }
 
         [PunRPC]
-        private void DrawPixel(int index, Color color)
+        private void DrawPixel(int index, float r, float g, float b)
         {
+            Color color = new Color(r, g, b);
             PictureModel.DrawPixel(index, color);
         }
     }
