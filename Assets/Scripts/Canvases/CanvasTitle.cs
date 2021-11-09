@@ -10,6 +10,7 @@ namespace Canvases
     {
         [SerializeField] private TMP_InputField inputFieldUserName;
         [SerializeField] private Button buttonLogin;
+        [SerializeField] private TextMeshProUGUI textMeshProWarning;
         
         private readonly Subject<string> _onChangeInputFieldUserName = new Subject<string>();
         public IObservable<string> OnChangeInputFieldUserName => _onChangeInputFieldUserName;
@@ -42,6 +43,11 @@ namespace Canvases
         public void SetButtonLoginInteractable(bool isInteractable)
         {
             buttonLogin.interactable = isInteractable;
+        }
+
+        public void SetWarningText(string text)
+        {
+            textMeshProWarning.text = text;
         }
     }
 }

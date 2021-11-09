@@ -30,22 +30,16 @@ MonoBehaviour:
     serializationDepthLimit: 64
     assemblyNames:
     - Assembly-CSharp
-    - UniTask
     - UniRx
     - Assembly-CSharp-firstpass
-    - UniTask.Linq
     - PhotonUnityNetworking.Demos
     - PhotonRealtime
     - PhotonUnityNetworking
     - PhotonUnityNetworking.Utilities
-    - UniTask.DOTween
     - PhotonChat
     - UniRx.Examples
-    - UniTask.TextMeshPro
-    - UniTask.Addressables
     - PhotonUnityNetworking.Editor
     - PsdPlugin
-    - UniTask.Editor
     - PhotonUnityNetworking.Utilities.PhotonPlayer.Editor
     - PunDemos.DemoSlotcarEditor
     - PhotonUnityNetworking.Utilities.Culling.Editor

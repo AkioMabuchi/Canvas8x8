@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +19,7 @@ public class SceneController : SingletonMonoBehaviour<SceneController>
         Scene prevScene = SceneManager.GetSceneByName(_currentSceneName);
         SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
         Scene nextScene = SceneManager.GetSceneByName(sceneName);
-        yield return UniTask.WaitUntil(() => nextScene.isLoaded);
+        while (!nextScene.isLoaded) yield return null;
         SceneManager.SetActiveScene(nextScene);
         yield return SceneManager.UnloadSceneAsync(prevScene);
     }

@@ -360,6 +360,7 @@ namespace SceneManagers
         {
             CanvasPallet.Instance.Hide();
             CanvasAnswer.Instance.Hide();
+            PictureModel.ClearCanvas();
             
             int round = (int) PhotonNetwork.CurrentRoom.CustomProperties["Round"];
 
@@ -367,7 +368,6 @@ namespace SceneManagers
 
             if (examiners[round] == PhotonNetwork.LocalPlayer.ActorNumber)
             {
-                PictureModel.ClearCanvas();
                 PalletModel.ChangeColor(Color.white);
                 CanvasPallet.Instance.Show();
                 SetPlayerProperty("Status", PlayerStatus.Examiner);
@@ -377,6 +377,7 @@ namespace SceneManagers
             }
             else
             {
+                AnswerInputModel.Clear();
                 CanvasAnswer.Instance.ChangeMode(CanvasAnswer.InputFieldMode.Disabled);
                 CanvasAnswer.Instance.Show();
                 SetPlayerProperty("Status", PlayerStatus.Answerer);

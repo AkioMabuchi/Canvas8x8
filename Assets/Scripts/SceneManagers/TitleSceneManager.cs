@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Canvases;
-using Cysharp.Threading.Tasks;
 using Managers;
 using Models;
 using Photon.Pun;
@@ -29,11 +28,17 @@ namespace SceneManagers
             CanvasTitle.Instance.SetInputFieldUserNameText(UserNameModel.UserName.Value);
             CanvasTitle.Instance.SetInputFieldUserNameInteractable(false);
             CanvasTitle.Instance.SetButtonLoginInteractable(false);
+
+            CanvasTitle.Instance.SetWarningText("");
+            CanvasTitleConnecting.Instance.Hide();
+            CanvasTitleError.Instance.Hide();
+            
             if (PhotonNetwork.IsConnected)
             {
                 PhotonNetwork.Disconnect();
-                yield return UniTask.WaitUntil(() => !PhotonNetwork.IsConnected);
+                while (PhotonNetwork.IsConnected) yield return null;
             }
+
             EnableUserControl();
         }
 
@@ -49,9 +54,11 @@ namespace SceneManagers
                 {
                     if (UserNameModel.UserName.Value == "")
                     {
+                        CanvasTitle.Instance.SetWarningText("入力してください");
                         return;
                     }
-                        
+
+                    CanvasTitle.Instance.SetWarningText("");
                     DisableUserControl();
                     ConnectServerAndJoinLobby();
 
@@ -71,6 +78,7 @@ namespace SceneManagers
 
         private void ConnectServerAndJoinLobby()
         {
+            CanvasTitleConnecting.Instance.Show();
             PhotonNetwork.ConnectUsingSettings();
         }
         private void OnDestroy()
@@ -97,6 +105,33 @@ namespace SceneManagers
         public override void OnJoinedLobby()
         {
             SceneController.Instance.ChangeScene("LobbyScene");
+        }
+
+        public override void OnDisconnected(DisconnectCause cause)
+        {
+            switch (cause)
+            {
+                case DisconnectCause.MaxCcuReached:
+                {
+                    CanvasTitleError.Instance.SetMessageText("サーバーが満員のため、接続できませんでした");
+                    ShowErrorDialog();
+                    break;
+                }
+            }
+        }
+
+        private void ShowErrorDialog()
+        {
+            _disposables.Add(
+                "ButtonErrorCancel",
+                CanvasTitleError.Instance.OnClickButtonClose.Subscribe(_ =>
+                {
+                    Dispose("ButtonErrorCancel");
+                    CanvasTitleError.Instance.Hide();
+                    EnableUserControl();
+                }));
+            CanvasTitleConnecting.Instance.Hide();
+            CanvasTitleError.Instance.Show();
         }
     }
 }

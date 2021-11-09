@@ -1,5 +1,6 @@
 using System;
 using Canvases.UIObjects;
+using Models;
 using UniRx;
 using UnityEngine;
 
@@ -16,6 +17,64 @@ namespace Canvases
         private readonly Subject<string> _onClickButtonRoom = new Subject<string>();
         public IObservable<string> OnClickButtonRoom => _onClickButtonRoom;
 
+        protected override void OnAwake()
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                int ii = i;
+
+                RoomListModel.RoomsInteractable[i].Subscribe(interactable =>
+                {
+                    buttonRooms[ii].SetInteractable(interactable);
+                }).AddTo(gameObject);
+
+
+                RoomListModel.RoomStatuses[i].Subscribe(status =>
+                {
+                    switch (status)
+                    {
+                        case RoomStatus.Private:
+                        {
+                            buttonRooms[ii].SetButtonImageSprite(spriteButtonRoomPrivate);
+                            buttonRooms[ii].ShowOrHideTexts(true);
+                            break;
+                        }
+                        case RoomStatus.Public:
+                        {
+                            buttonRooms[ii].SetButtonImageSprite(spriteButtonRoomPublic);
+                            buttonRooms[ii].ShowOrHideTexts(true);
+                            break;
+                        }
+                        default:
+                        {
+                            buttonRooms[ii].SetButtonImageSprite(spriteButtonRoomNone);
+                            buttonRooms[ii].ShowOrHideTexts(false);
+                            break;
+                        }
+                    }
+                }).AddTo(gameObject);
+
+
+                RoomListModel.RoomNames[i].Subscribe(roomName =>
+                {
+                    buttonRooms[ii].SetRoomName(roomName);
+                    buttonRooms[ii].SetRoomNameText(roomName);
+                }).AddTo(gameObject);
+
+
+                RoomListModel.RoomMaximums[i].Subscribe(maximum =>
+                {
+                    buttonRooms[ii].SetMaximumText(maximum);
+                }).AddTo(gameObject);
+
+
+                RoomListModel.RoomCurrents[i].Subscribe(current =>
+                {
+                    buttonRooms[ii].SetCurrentText(current);
+                }).AddTo(gameObject);
+            }
+        }
+
         private void Start()
         {
             for (int i = 0; i < 30; i++)
@@ -25,56 +84,6 @@ namespace Canvases
                     _onClickButtonRoom.OnNext(roomName);
                 }).AddTo(gameObject);
             }
-        }
-
-        public void SetRoomButtonInteractable(int index, bool interactable)
-        {
-            buttonRooms[index].SetInteractable(interactable);
-        }
-
-        public void SetRoomButtonStatus(int index, RoomStatus status)
-        {
-            switch (status)
-            {
-                case RoomStatus.Private:
-                {
-                    buttonRooms[index].SetButtonImageSprite(spriteButtonRoomPrivate);
-                    buttonRooms[index].ShowOrHideTexts(true);
-                    break;
-                }
-                case RoomStatus.Public:
-                {
-                    buttonRooms[index].SetButtonImageSprite(spriteButtonRoomPublic);
-                    buttonRooms[index].ShowOrHideTexts(true);
-                    break;
-                }
-                default:
-                {
-                    buttonRooms[index].SetButtonImageSprite(spriteButtonRoomNone);
-                    buttonRooms[index].ShowOrHideTexts(false);
-                    break;
-                }
-            }
-        }
-
-        public void SetRoomButtonRoomName(int index, string roomName)
-        {
-            buttonRooms[index].SetRoomName(roomName);
-        }
-
-        public void SetRoomButtonRoomNameText(int index, string text)
-        {
-            buttonRooms[index].SetRoomNameText(text);
-        }
-
-        public void SetRoomButtonMaximumText(int index, string text)
-        {
-            buttonRooms[index].SetMaximumText(text);
-        }
-
-        public void SetRoomButtonCurrentText(int index, string text)
-        {
-            buttonRooms[index].SetCurrentText(text);
         }
     }
 }

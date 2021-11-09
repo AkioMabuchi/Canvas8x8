@@ -20,48 +20,11 @@ namespace SceneManagers
             SceneController.Instance.SetCurrentSceneName("LobbyScene");
             CanvasCreateRoom.Instance.Hide();
             CanvasEnterPassword.Instance.Hide();
+            CanvasRoomEntering.Instance.Hide();
+            CanvasLobbyError.Instance.Hide();
+            
             if (PhotonNetwork.InLobby)
             {
-                for (int i = 0; i < 30; i++)
-                {
-                    int ii = i;
-                    _disposables.Add(
-                        "RoomInteractable" + i,
-                        RoomListModel.RoomsInteractable[i].Subscribe(interactable =>
-                        {
-                            CanvasRoomList.Instance.SetRoomButtonInteractable(ii, interactable);
-                        }));
-
-                    _disposables.Add(
-                        "RoomStatus" + i,
-                        RoomListModel.RoomStatuses[i].Subscribe(status =>
-                        {
-                            CanvasRoomList.Instance.SetRoomButtonStatus(ii, status);
-                        }));
-
-                    _disposables.Add(
-                        "RoomName" + i,
-                        RoomListModel.RoomNames[i].Subscribe(roomName =>
-                        {
-                            CanvasRoomList.Instance.SetRoomButtonRoomName(ii, roomName);
-                            CanvasRoomList.Instance.SetRoomButtonRoomNameText(ii, roomName);
-                        }));
-
-                    _disposables.Add(
-                        "RoomMaximum" + i,
-                        RoomListModel.RoomMaximums[i].Subscribe(maximum =>
-                        {
-                            CanvasRoomList.Instance.SetRoomButtonMaximumText(ii, maximum);
-                        }));
-
-                    _disposables.Add(
-                        "RoomCurrent" + i,
-                        RoomListModel.RoomCurrents[i].Subscribe(current =>
-                        {
-                            CanvasRoomList.Instance.SetRoomButtonCurrentText(ii, current);
-                        }));
-                }
-                
                 EnableUserControl();
             }
             else
@@ -111,6 +74,7 @@ namespace SceneManagers
                                     CustomRoomPropertiesForLobby = new[] {"Password"}
                                 };
                                 
+                                CanvasRoomEntering.Instance.Show();
                                 PhotonNetwork.CreateRoom(CreateRoomModel.RoomName.Value, roomOptions);
                             }
                         }));
@@ -146,6 +110,7 @@ namespace SceneManagers
                                 CanvasEnterPassword.Instance.OnCertificated.Subscribe(roomName2 =>
                                 {
                                     DisableEnterPasswordControlAndHide();
+                                    CanvasRoomEntering.Instance.Show();
                                     PhotonNetwork.JoinRoom(roomName2);
                                 }));
                             _disposables.Add(
@@ -212,9 +177,29 @@ namespace SceneManagers
             SceneController.Instance.ChangeScene("MainScene");
         }
 
+        public override void OnJoinRoomFailed(short returnCode, string message)
+        {
+            CanvasLobbyError.Instance.SetMessageText("入室に失敗しました");
+            ShowErrorDialog();
+        }
+
         public override void OnDisconnected(DisconnectCause cause)
         {
             SceneController.Instance.ChangeScene("TitleScene");
+        }
+
+        private void ShowErrorDialog()
+        {
+            _disposables.Add(
+                "ButtonErrorCancel",
+                CanvasLobbyError.Instance.OnClickButtonClose.Subscribe(_ =>
+                {
+                    Dispose("ButtonErrorCancel");
+                    CanvasLobbyError.Instance.Hide();
+                    EnableUserControl();
+                }));
+            CanvasRoomEntering.Instance.Hide();
+            CanvasLobbyError.Instance.Show();
         }
     }
 }
