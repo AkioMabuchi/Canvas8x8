@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Canvases;
 using Managers;
 using Models;
 using Photon.Pun;
@@ -303,7 +302,7 @@ namespace SceneManagers
         [PunRPC]
         private void UpdateTimer(int count)
         {
-            Debug.Log("のこり：" + count + "秒");
+            CanvasTimer.Instance.SetCountTextByInt(count);
         }
         [PunRPC]
         private void MainGameStartCall()

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Canvases;
 using ExitGames.Client.Photon;
 using Managers;
 using Models;

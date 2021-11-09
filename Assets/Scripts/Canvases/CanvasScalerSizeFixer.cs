@@ -1,32 +1,29 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Canvases
+[RequireComponent(typeof(CanvasScaler))]
+public class CanvasScalerSizeFixer : MonoBehaviour
 {
-    [RequireComponent(typeof(CanvasScaler))]
-    public class CanvasScalerSizeFixer : MonoBehaviour
+    [SerializeField] private CanvasScaler canvasScaler;
+
+    private void Reset()
     {
-        [SerializeField] private CanvasScaler canvasScaler;
+        canvasScaler = GetComponent<CanvasScaler>();
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1920.0f, 1080.0f);
+        canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+    }
 
-        private void Reset()
-        {
-            canvasScaler = GetComponent<CanvasScaler>();
-            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            canvasScaler.referenceResolution = new Vector2(1920.0f, 1080.0f);
-            canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-        }
+    private void Start()
+    {
+        canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        canvasScaler.referenceResolution = new Vector2(1920.0f, 1080.0f);
+        canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+        canvasScaler.matchWidthOrHeight = Screen.width * 9 / Screen.height >= 16 ? 1.0f : 0.0f;
+    }
 
-        private void Start()
-        {
-            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            canvasScaler.referenceResolution = new Vector2(1920.0f, 1080.0f);
-            canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-            canvasScaler.matchWidthOrHeight = Screen.width * 9 / Screen.height >= 16 ? 1.0f : 0.0f;
-        }
-
-        private void Update()
-        {
-            canvasScaler.matchWidthOrHeight = Screen.width * 9 / Screen.height >= 16 ? 1.0f : 0.0f;
-        }
+    private void Update()
+    {
+        canvasScaler.matchWidthOrHeight = Screen.width * 9 / Screen.height >= 16 ? 1.0f : 0.0f;
     }
 }

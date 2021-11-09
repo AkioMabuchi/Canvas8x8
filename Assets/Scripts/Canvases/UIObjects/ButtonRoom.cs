@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Canvases.UIObjects
+namespace UIObjects
 {
     public class ButtonRoom : MonoBehaviour
     {

@@ -3,38 +3,35 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Canvases
+public class CanvasForceHalt : SingletonMonoBehaviour<CanvasForceHalt>
 {
-    public class CanvasForceHalt : SingletonMonoBehaviour<CanvasForceHalt>
-    {
-        [SerializeField] private Image imageBackground;
-        [SerializeField] private Image imageFrame;
-        [SerializeField] private Button buttonCancel;
-        [SerializeField] private Button buttonAccept;
+    [SerializeField] private Image imageBackground;
+    [SerializeField] private Image imageFrame;
+    [SerializeField] private Button buttonCancel;
+    [SerializeField] private Button buttonAccept;
         
-        private readonly Subject<Unit> _onClickButtonClose = new Subject<Unit>();
-        public IObservable<Unit> OnClickButtonClose => _onClickButtonClose;
-        private void Start()
+    private readonly Subject<Unit> _onClickButtonClose = new Subject<Unit>();
+    public IObservable<Unit> OnClickButtonClose => _onClickButtonClose;
+    private void Start()
+    {
+        buttonCancel.onClick.AddListener(() =>
         {
-            buttonCancel.onClick.AddListener(() =>
-            {
-                _onClickButtonClose.OnNext(Unit.Default);
-            });
+            _onClickButtonClose.OnNext(Unit.Default);
+        });
             
-            buttonAccept.onClick.AddListener(() =>
-            {
-                _onClickButtonClose.OnNext(Unit.Default);
-            });
-        }
-
-        public void Show()
+        buttonAccept.onClick.AddListener(() =>
         {
-            imageBackground.gameObject.SetActive(true);
-        }
+            _onClickButtonClose.OnNext(Unit.Default);
+        });
+    }
 
-        public void Hide()
-        {
-            imageBackground.gameObject.SetActive(false);
-        }
+    public void Show()
+    {
+        imageBackground.gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        imageBackground.gameObject.SetActive(false);
     }
 }

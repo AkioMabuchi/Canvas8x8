@@ -4,14 +4,15 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public enum RoomStatus
-{
-    None,
-    Private,
-    Public
-}
 namespace Models
 {
+    public enum RoomStatus
+    {
+        None,
+        Private,
+        Public
+    }
+
     public static class RoomListModel
     {
         private static readonly Dictionary<string, RoomInfo> _rooms = new Dictionary<string, RoomInfo>();

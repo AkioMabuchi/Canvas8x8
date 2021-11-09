@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Canvases;
 using Managers;
 using Models;
 using Photon.Pun;

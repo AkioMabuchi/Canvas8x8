@@ -4,44 +4,41 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Canvases
+public class CanvasPallet : SingletonMonoBehaviour<CanvasPallet>
 {
-    public class CanvasPallet : SingletonMonoBehaviour<CanvasPallet>
+    [SerializeField] private Image imageFrame;
+
+    [SerializeField] private Image imageCurrentColor;
+    [SerializeField] private Image[] imagesColors = new Image[20];
+
+    private readonly Subject<int> _onClickImageButtonColor = new Subject<int>();
+    protected override void OnAwake()
     {
-        [SerializeField] private Image imageFrame;
-
-        [SerializeField] private Image imageCurrentColor;
-        [SerializeField] private Image[] imagesColors = new Image[20];
-
-        private readonly Subject<int> _onClickImageButtonColor = new Subject<int>();
-        protected override void OnAwake()
+        PalletModel.CurrentColor.Subscribe(color =>
         {
-            PalletModel.CurrentColor.Subscribe(color =>
-            {
-                imageCurrentColor.color = color;
-            }).AddTo(gameObject);
+            imageCurrentColor.color = color;
+        }).AddTo(gameObject);
 
-            _onClickImageButtonColor.Subscribe(PalletModel.ChangeColor).AddTo(gameObject);
+        _onClickImageButtonColor.Subscribe(PalletModel.ChangeColor).AddTo(gameObject);
             
-            for (int i = 0; i < 20; i++)
-            {
-                PalletModel.SetPalletColor(i, imagesColors[i].color);
-            }
-        }
-
-        public void Show()
+        for (int i = 0; i < 20; i++)
         {
-            imageFrame.gameObject.SetActive(true);
+            PalletModel.SetPalletColor(i, imagesColors[i].color);
         }
+    }
 
-        public void Hide()
-        {
-            imageFrame.gameObject.SetActive(false);
-        }
+    public void Show()
+    {
+        imageFrame.gameObject.SetActive(true);
+    }
 
-        public void OnPointerDownImageButtonColor(int index)
-        {
-            _onClickImageButtonColor.OnNext(index);
-        }
+    public void Hide()
+    {
+        imageFrame.gameObject.SetActive(false);
+    }
+
+    public void OnPointerDownImageButtonColor(int index)
+    {
+        _onClickImageButtonColor.OnNext(index);
     }
 }

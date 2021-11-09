@@ -7,15 +7,16 @@ using Photon.Realtime;
 using UniRx;
 using UnityEngine;
 
-public enum PlayerStatus
-{
-    NotReady,
-    Ready,
-    Examiner,
-    Answerer,
-}
 namespace Managers
 {
+    public enum PlayerStatus
+    {
+        NotReady,
+        Ready,
+        Examiner,
+        Answerer,
+    }
+
     public class PhotonManager : MonoBehaviourPunCallbacks
     {
         private void Start()

@@ -1,3 +1,8 @@
+using System;
+using System.Collections;
+using ExitGames.Client.Photon;
+using UnityEngine;
+
 #if UNITY_WEBGL || WEBSOCKET || ((UNITY_XBOXONE || UNITY_GAMECORE) && UNITY_EDITOR)
 
 // --------------------------------------------------------------------------------------------------------------------
@@ -11,11 +16,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace ExitGames.Client.Photon
+namespace Photon.PhotonLibs.WebSocket
 {
-    using System;
-    using System.Collections;
-    using UnityEngine;
     using SupportClassPun = ExitGames.Client.Photon.SupportClass;
 
 
