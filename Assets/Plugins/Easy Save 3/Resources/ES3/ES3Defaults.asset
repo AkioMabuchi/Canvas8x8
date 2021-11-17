@@ -38,12 +38,14 @@ MonoBehaviour:
     - PhotonUnityNetworking.Utilities
     - PhotonChat
     - UniRx.Examples
+    - Coffee.UnmaskForUGUI
     - PhotonUnityNetworking.Editor
     - PsdPlugin
     - PhotonUnityNetworking.Utilities.PhotonPlayer.Editor
     - PunDemos.DemoSlotcarEditor
     - PhotonUnityNetworking.Utilities.Culling.Editor
     - PunDemos.DemoHubEditor
+    - Coffee.UnmaskForUGUI.Editor
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1

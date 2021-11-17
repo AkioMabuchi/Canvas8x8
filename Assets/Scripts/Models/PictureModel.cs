@@ -23,13 +23,5 @@ namespace Models
         {
             _pixelsColor[index].Value = color;
         }
-
-        public static void ClearCanvas()
-        {
-            for (int i = 0; i < 64; i++)
-            {
-                _pixelsColor[i].Value = Color.white;
-            }
-        }
     }
 }

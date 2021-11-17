@@ -10,7 +10,7 @@ namespace Models
     {
         private static readonly ReactiveDictionary<int, Player> _players = new ReactiveDictionary<int, Player>();
         public static IReadOnlyReactiveDictionary<int, Player> Players => _players;
-
+        
         public static void SetPlayers(IReadOnlyDictionary<int, Player> players)
         {
             foreach (KeyValuePair<int, Player> player in players)

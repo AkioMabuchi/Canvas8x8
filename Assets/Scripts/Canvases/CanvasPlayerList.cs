@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Managers;
+using Models;
 using Photon.Realtime;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +12,32 @@ public class CanvasPlayerList : SingletonMonoBehaviour<CanvasPlayerList>
     [SerializeField] private Image imageFrame;
     [SerializeField] private TextMeshProUGUI[] textMeshProsPlayerName = new TextMeshProUGUI[5];
     [SerializeField] private TextMeshProUGUI[] textMeshProsMessage = new TextMeshProUGUI[5];
+
+    protected override void OnAwake()
+    {
+        PlayerListModel.Players.ObserveAdd().Subscribe(_ =>
+        {
+            UpdateMessages(PlayerListModel.GetPlayerList());
+        }).AddTo(gameObject);
+
+
+        PlayerListModel.Players.ObserveRemove().Subscribe(_ =>
+        {
+            UpdateMessages(PlayerListModel.GetPlayerList());
+        }).AddTo(gameObject);
+
+
+        PlayerListModel.Players.ObserveReplace().Subscribe(_ =>
+        {
+            UpdateMessages(PlayerListModel.GetPlayerList());
+        }).AddTo(gameObject);
+
+
+        PlayerListModel.Players.ObserveReset().Subscribe(_ =>
+        {
+            UpdateMessages(PlayerListModel.GetPlayerList());
+        }).AddTo(gameObject);
+    }
 
     public void Show()
     {
@@ -21,7 +49,7 @@ public class CanvasPlayerList : SingletonMonoBehaviour<CanvasPlayerList>
         imageFrame.gameObject.SetActive(false);
     }
 
-    public void UpdateMessages(IReadOnlyList<Player> players)
+    private void UpdateMessages(IReadOnlyList<Player> players)
     {
 
         for (int i = 0; i < 5; i++)
